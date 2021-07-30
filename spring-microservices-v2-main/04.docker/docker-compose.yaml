@@ -10,6 +10,8 @@ services:
     - currency-network
    depends_on:
     - naming-server
+   environment:
+    EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
 
   naming-server:
    image: nitinasati/mmv2-naming-server:0.0.1-SNAPSHOT
