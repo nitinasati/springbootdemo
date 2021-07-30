@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   api-gateway:
-   image: nitinasati/mmv2-api-gateway:0.0.1-SNAPSHOT
+   image: nitinasati/mmv2-api-gateway:0.0.2-SNAPSHOT
    mem_limit: 700m
    ports:
     - "8765:8765"
