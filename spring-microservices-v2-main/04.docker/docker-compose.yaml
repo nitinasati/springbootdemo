@@ -71,7 +71,7 @@ services:
     RABBIT_URI: amqp://guest:guest@rabbitmq:5672
    depends_on:
     - rabbitmq
-   command: ["sleep 60"]
+   command: ["sleep 1000"]
 
   rabbitmq:
    image: rabbitmq:3.5.3-management
