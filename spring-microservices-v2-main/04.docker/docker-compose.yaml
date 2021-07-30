@@ -63,14 +63,14 @@ services:
   zipkin-server:
    image: openzipkin/zipkin:2.23
    mem_limit: 300m
-   depends_on:
-    - rabbitmq
    ports:
     - "9411:9411"
    networks:
     - currency-network
    environment: 
     RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+   depends_on:
+    - rabbitmq
 
   rabbitmq:
    image: rabbitmq:3.5.3-management
