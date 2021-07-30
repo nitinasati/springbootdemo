@@ -10,7 +10,6 @@ services:
     - currency-network
    depends_on:
     - naming-server
-    - rabbitmq
    environment:
     EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
     SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
@@ -24,7 +23,6 @@ services:
     - currency-network
    depends_on:
     - naming-server
-    - rabbitmq
    environment:
     EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
     SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
@@ -38,7 +36,6 @@ services:
     - currency-network
    depends_on:
     - naming-server
-    - rabbitmq
    environment:
     EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
     SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
