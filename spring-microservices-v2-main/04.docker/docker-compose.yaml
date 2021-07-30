@@ -64,6 +64,7 @@ services:
     - "9411:9411"
    networks:
     - currency-network
+   RABBIT_URI: amqp://guest:guest@rabbitmq:5672
 
   rabbitmq:
    image: rabbitmq:3.5.3-management
@@ -76,4 +77,3 @@ services:
 
 networks:
   currency-network:
-   
