@@ -13,6 +13,9 @@ services:
    environment:
     EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
     SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+    RABBIT_URI: amqp://guest:guest@rabbitmq:5672 
+    SPRING_RABBITMQ_HOST: rabbitmq
+    SPRING_ZIPKIN_SENDER_TYPE: rabbit
 
   currency-exchange:
    image: nitinasati/mmv2-currency-exchange-service:0.0.1-SNAPSHOT
@@ -26,7 +29,10 @@ services:
    environment:
     EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
     SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
-
+    RABBIT_URI: amqp://guest:guest@rabbitmq:5672 
+    SPRING_RABBITMQ_HOST: rabbitmq
+    SPRING_ZIPKIN_SENDER_TYPE: rabbit
+    
   currency-conversion:
    image: nitinasati/mmv2-currency-conversion-service:0.0.1-SNAPSHOT
    mem_limit: 700m
@@ -39,7 +45,10 @@ services:
    environment:
     EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
     SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
-    
+    RABBIT_URI: amqp://guest:guest@rabbitmq:5672 
+    SPRING_RABBITMQ_HOST: rabbitmq
+    SPRING_ZIPKIN_SENDER_TYPE: rabbit
+        
   naming-server:
    image: nitinasati/mmv2-naming-server:0.0.1-SNAPSHOT
    mem_limit: 700m
@@ -53,6 +62,15 @@ services:
    mem_limit: 300m
    ports:
     - "9411:9411"
+   networks:
+    - currency-network
+
+  rabbitmq:
+   image: rabbitmq:3.5.3-management
+   mem_limit: 300m
+   ports:
+    - "5672:5672"
+    - "15672:15672"
    networks:
     - currency-network
 
