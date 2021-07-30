@@ -1,6 +1,15 @@
 version: '3.7'
 
 services:
+  rabbitmq:
+   image: rabbitmq:3.5.3-management
+   mem_limit: 300m
+   ports:
+    - "5672:5672"
+    - "15672:15672"
+   networks:
+    - currency-network
+  
   api-gateway:
    image: nitinasati/mmv2-api-gateway:0.0.1-SNAPSHOT
    mem_limit: 700m
@@ -71,17 +80,6 @@ services:
     RABBIT_URI: amqp://guest:guest@rabbitmq:5672
    depends_on:
     - rabbitmq
-   command: ["sleep 10000"]
-
-  rabbitmq:
-   image: rabbitmq:3.5.3-management
-   hostname: rabbitmq
-   mem_limit: 300m
-   ports:
-    - "5672:5672"
-    - "15672:15672"
-   networks:
-    - currency-network
-
+  
 networks:
   currency-network:
