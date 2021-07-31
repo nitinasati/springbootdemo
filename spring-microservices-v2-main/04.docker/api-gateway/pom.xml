@@ -79,24 +79,15 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>1.4.13</version>
-				<executions>
-					<execution>
-						<id>default</id>
-						<goals>
-							<goal>build</goal>
-							<goal>push</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
 				<configuration>
-					<repository>nitinasati/mmv2-${project.artifactId}</repository>
-					<tag>${project.version}</tag>
-					<buildArgs>
-						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-					</buildArgs>
+					<filter>${*}</filter>
+					<images>
+						<image>
+							<name>nitinasati/mmv2-${project.artifactId}:${project.version}</name>
+						</image>
+					</images>
 				</configuration>
 			</plugin>
 		</plugins>
