@@ -54,11 +54,8 @@ spec:
 ---
 apiVersion: v1
 data:
-  game.properties: |
     CURRENCY_EXCHANGE_URI=http://currency-exchange
 kind: ConfigMap
 metadata:
   name: currency-conversion
   namespace: default
-  resourceVersion: "130791"
-  uid: cab8fa84-4cd3-4d2d-b585-3f42a1efad86
