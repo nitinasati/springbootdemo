@@ -38,7 +38,9 @@ spec:
       imagePullSecrets: 
         - name: regcred 
       restartPolicy: Always
-      terminationGracePeriodSeconds: 30
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      
 ---
 apiVersion: v1
 kind: Service
