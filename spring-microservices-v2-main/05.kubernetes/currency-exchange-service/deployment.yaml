@@ -27,6 +27,14 @@ spec:
       - image: nitinasati/mmv2-currency-exchange-service:0.0.12-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: currency-exchange
+        readinessProbe: 
+          httpGet:
+            port: 8000
+            path: /actuator/health/readiness
+        livenessProbe: 
+          httpGet:
+            port: 8000
+            path: /actuator/health/liveness
       imagePullSecrets: 
         - name: regcred 
       restartPolicy: Always
