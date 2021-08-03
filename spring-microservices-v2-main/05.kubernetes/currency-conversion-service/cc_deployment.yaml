@@ -54,7 +54,7 @@ spec:
 ---
 apiVersion: v1
 data:
-    CURRENCY_EXCHANGE_URI=http://currency-exchange
+    CURRENCY_EXCHANGE_URI: http://currency-exchange
 kind: ConfigMap
 metadata:
   name: currency-conversion
