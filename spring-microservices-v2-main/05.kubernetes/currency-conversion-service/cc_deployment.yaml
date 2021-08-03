@@ -51,3 +51,12 @@ spec:
     app: currency-conversion
   sessionAffinity: None
   type: LoadBalancer
+---
+apiVersion: v1
+data:
+  game.properties: |
+    CURRENCY_EXCHANGE_URI=http://currency-exchange
+kind: ConfigMap
+metadata:
+  name: currency-conversion
+  namespace: default
