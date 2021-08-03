@@ -27,9 +27,9 @@ spec:
       - image: nitinasati/mmv2-currency-conversion-service:0.0.12-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: currency-conversion
-        env:
-         - name: CURRENCY_EXCHANGE_URI
-           value: http://currency-exchange
+        envFrom:
+         - configMapRef:
+             name: currency-conversion
       imagePullSecrets: 
         - name: regcred 
       restartPolicy: Always
