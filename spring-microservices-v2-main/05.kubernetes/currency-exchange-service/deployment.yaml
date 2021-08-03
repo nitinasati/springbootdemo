@@ -7,7 +7,7 @@ metadata:
   namespace: default
 spec:
   progressDeadlineSeconds: 600
-  replicas: 2
+  replicas: 3
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -24,7 +24,7 @@ spec:
         app: currency-exchange
     spec:
       containers:
-      - image: nitinasati/mmv2-currency-exchange-service:0.0.12-SNAPSHOT
+      - image: nitinasati/mmv2-currency-exchange-service:0.0.13-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: currency-exchange
         readinessProbe: 
