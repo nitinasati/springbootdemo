@@ -24,7 +24,7 @@ spec:
         app: currency-exchange
     spec:
       containers:
-      - image: nitinasati/mmv2-currency-exchange-service:0.0.13-SNAPSHOT
+      - image: nitinasati/mmv2-currency-exchange-service:0.0.14-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: currency-exchange
         readinessProbe: 
