@@ -1,4 +1,4 @@
-package com.in28minutes.microservices.currencyexchangeservice;
+package com.asatisamaj.matrimony.entities;
 
 import java.math.BigDecimal;
 

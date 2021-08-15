@@ -1,6 +1,8 @@
-package com.in28minutes.microservices.currencyexchangeservice;
+package com.asatisamaj.matrimony.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.asatisamaj.matrimony.entities.CurrencyExchange;
 
 public interface CurrencyExchangeRepository 
 	extends JpaRepository<CurrencyExchange, Long> {
