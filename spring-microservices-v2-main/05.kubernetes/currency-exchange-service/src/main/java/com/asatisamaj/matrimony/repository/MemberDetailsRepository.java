@@ -10,5 +10,8 @@ public interface MemberDetailsRepository
 	extends JpaRepository<MemberDetails, Long> {
     
     Page<MemberDetails> findBySamajArea(String samajArea, Pageable pageable);
-    Page<MemberDetails> findByEducationContaining(String title, Pageable pageable);
+    
+    Page<MemberDetails> findByMemberIdAndSamajAreaAndGender(Long memberId, String samajArea,String gender, Pageable pageable);
+    
+    Page<MemberDetails> findByEducationContaining(String education, Pageable pageable);
 }

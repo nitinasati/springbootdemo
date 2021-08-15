@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,10 +42,13 @@ public class AsatiSamajMatrimonyController {
 
         try {
             List<MemberDetails> memberDetails;
-            Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize());
+            Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize(),Sort.by("memberId").descending());
 
             Page<MemberDetails> pageTuts;
             pageTuts = memberRepository.findByEducationContaining(matrimonySearchCriteria.getEducation(), paging);
+            
+  //          pageTuts = memberRepository.findByMemberIdAndSamajAreaAndGender(matrimonySearchCriteria.getMemberId(),matrimonySearchCriteria.getSamajArea(),matrimonySearchCriteria.getGender(), paging);
+            
             memberDetails = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
             response.put("MemberDetails", memberDetails);
