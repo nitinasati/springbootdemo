@@ -28,7 +28,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: asatisamaj-matrimony
         env:
-         - name: APPLICATION.PROPERTIES
+         - name: jasypt.encryptor.password
            valueFrom:
              configMapKeyRef:
                name: asatisamaj-service
