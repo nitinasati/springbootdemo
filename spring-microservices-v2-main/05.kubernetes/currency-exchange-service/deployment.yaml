@@ -57,6 +57,6 @@ spec:
     protocol: TCP
     targetPort: 8000
   selector:
-    app: currency-exchange
+    app: asatisamaj-matrimony
   sessionAffinity: None
   type: LoadBalancer
