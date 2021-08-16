@@ -43,11 +43,3 @@ spec:
       imagePullSecrets: 
         - name: regcred 
       restartPolicy: Always
----
-apiVersion: v1
-kind: Secret
-metadata:
-   name: asatisamaj-service-config
-   namespace: default
-data:
-   jasypt.encryptor.password: d2FnbGVAMTIzCg==
