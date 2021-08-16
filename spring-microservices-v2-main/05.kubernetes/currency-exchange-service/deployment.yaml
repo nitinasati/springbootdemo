@@ -27,13 +27,6 @@ spec:
       - image: nitinasati/asatisamaj-matrimony-service:0.0.15-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: asatisamaj-matrimony
-        resources:
-         limits:
-           cpu: "100m"
-           memory: "100Mi"
-         requests:
-          cpu: "100m"
-          memory: "100Mi"
         envFrom:
           - secretRef:
              name: asatisamaj-service-config
