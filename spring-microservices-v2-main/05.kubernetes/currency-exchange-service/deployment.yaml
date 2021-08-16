@@ -29,7 +29,7 @@ spec:
         name: asatisamaj-matrimony
         envFrom:
           - configMapRef:
-             name: asatisamaj-service
+             name: asatisamaj-service-config
         readinessProbe: 
           httpGet:
             port: 8000
@@ -43,3 +43,11 @@ spec:
       imagePullSecrets: 
         - name: regcred 
       restartPolicy: Always
+---
+apiVersion: v1
+data:
+    jasypt.encryptor.password: wagle@123
+kind: ConfigMap
+metadata:
+  name: asatisamaj-service-config
+  namespace: default
