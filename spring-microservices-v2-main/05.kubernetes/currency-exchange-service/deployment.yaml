@@ -52,7 +52,7 @@ spec:
       restartPolicy: Always
 ---
 apiVersion: v1
-kind: secret
+kind: Secret
 metadata:
    name: asatisamaj-service-config
    namespace: default
