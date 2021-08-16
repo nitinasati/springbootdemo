@@ -27,9 +27,12 @@ spec:
       - image: nitinasati/asatisamaj-matrimony-service:0.0.15-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: asatisamaj-matrimony
-        envFrom:
-          - configMapRef:
-             name: asatisamaj-service-config
+        env:
+         - name: APPLICATION.PROPERTIES
+           valueFrom:
+             configMapKeyRef:
+               name: asatisamaj-service
+               key: application.properties
         readinessProbe: 
           httpGet:
             port: 8000
@@ -43,11 +46,3 @@ spec:
       imagePullSecrets: 
         - name: regcred 
       restartPolicy: Always
----
-apiVersion: v1
-data:
-    jasypt.encryptor.password: wagle@123
-kind: ConfigMap
-metadata:
-  name: asatisamaj-service-config
-  namespace: default
