@@ -7,7 +7,7 @@ metadata:
   namespace: default
 spec:
   progressDeadlineSeconds: 600
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
@@ -29,11 +29,11 @@ spec:
         name: asatisamaj-matrimony
         resources:
          limits:
-           cpu: "300m"
-           memory: "300Mi"
+           cpu: "100m"
+           memory: "100Mi"
          requests:
-          cpu: "300m"
-          memory: "200Mi"
+          cpu: "100m"
+          memory: "100Mi"
         envFrom:
           - secretRef:
              name: asatisamaj-service-config
