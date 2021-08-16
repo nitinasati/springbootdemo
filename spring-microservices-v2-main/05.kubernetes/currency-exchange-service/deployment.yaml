@@ -32,7 +32,7 @@ spec:
            valueFrom:
              configMapKeyRef:
                name: asatisamaj-service
-               key: application.properties
+               key: jasypt.encryptor.password
         readinessProbe: 
           httpGet:
             port: 8000
