@@ -28,7 +28,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: asatisamaj-matrimony
         envFrom:
-        - configMapRef:
+          - configMapRef:
              name: asatisamaj-service
         readinessProbe: 
           httpGet:
