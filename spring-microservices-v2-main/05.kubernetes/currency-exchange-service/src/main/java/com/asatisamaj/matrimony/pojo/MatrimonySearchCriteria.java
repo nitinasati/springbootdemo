@@ -1,16 +1,16 @@
 package com.asatisamaj.matrimony.pojo;
 
+import java.util.List;
+
 public class MatrimonySearchCriteria {
 
-    private Long memberId;
-    private String samajArea;
-    private String gender;
-    private String ageRange;
-    private String education;
-    private String occupation;
     private int page;
     private int size;
+    private String sortColumn;
+    private String sortDirection;
 
+    private List<SearchCriteria> searchCriteriaList;
+    
     public int getPage() {
         return page;
     }
@@ -27,52 +27,28 @@ public class MatrimonySearchCriteria {
         this.size = size;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public String getSortColumn() {
+        return sortColumn;
     }
 
-    public String getSamajArea() {
-        return samajArea;
+    public String getSortDirection() {
+        return sortDirection;
     }
 
-    public String getGender() {
-        return gender;
+    public void setSortColumn(String sortColumn) {
+        this.sortColumn = sortColumn;
     }
 
-    public String getAgeRange() {
-        return ageRange;
+    public void setSortDirection(String sortDirection) {
+        this.sortDirection = sortDirection;
     }
 
-    public String getEducation() {
-        return education;
+    public List<SearchCriteria> getSearchCriteriaList() {
+        return searchCriteriaList;
     }
 
-    public String getOccupation() {
-        return occupation;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
-
-    public void setSamajArea(String samajArea) {
-        this.samajArea = samajArea;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public void setAgeRange(String ageRange) {
-        this.ageRange = ageRange;
-    }
-
-    public void setEducation(String education) {
-        this.education = education;
-    }
-
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
+    public void setSearchCriteriaList(List<SearchCriteria> searchCriteriaList) {
+        this.searchCriteriaList = searchCriteriaList;
     }
 
 }

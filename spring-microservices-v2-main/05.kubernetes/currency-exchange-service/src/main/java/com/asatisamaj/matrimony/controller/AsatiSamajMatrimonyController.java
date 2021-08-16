@@ -7,7 +7,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.asatisamaj.matrimony.entities.MemberDetails;
 import com.asatisamaj.matrimony.pojo.MatrimonySearchCriteria;
 import com.asatisamaj.matrimony.repository.MemberDetailsRepository;
+import com.asatisamaj.matrimony.utils.GenericSpecification;
 
 @RestController
 public class AsatiSamajMatrimonyController {
-
-    private Logger logger = LoggerFactory.getLogger(AsatiSamajMatrimonyController.class);
 
     @Autowired
     private MemberDetailsRepository memberRepository;
@@ -41,20 +39,26 @@ public class AsatiSamajMatrimonyController {
             @RequestBody MatrimonySearchCriteria matrimonySearchCriteria) {
 
         try {
+
+            GenericSpecification<MemberDetails> genericSpecification = new GenericSpecification<>();
+            matrimonySearchCriteria.getSearchCriteriaList().forEach(searchCriteria -> {
+                genericSpecification.add(searchCriteria);
+            });
+
             List<MemberDetails> memberDetails;
-            Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize(),Sort.by("memberId").descending());
+            Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize(),
+                    Sort.by(matrimonySearchCriteria.getSortColumn()));
 
             Page<MemberDetails> pageTuts;
-            pageTuts = memberRepository.findByEducationContaining(matrimonySearchCriteria.getEducation(), paging);
-            
-  //          pageTuts = memberRepository.findByMemberIdAndSamajAreaAndGender(matrimonySearchCriteria.getMemberId(),matrimonySearchCriteria.getSamajArea(),matrimonySearchCriteria.getGender(), paging);
-            
+            pageTuts = memberRepository.findAll(genericSpecification, paging);
+
             memberDetails = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
             response.put("MemberDetails", memberDetails);
             response.put("currentPage", pageTuts.getNumber());
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
+            response.put("resultSortedBy", pageTuts.getPageable().getSort());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
