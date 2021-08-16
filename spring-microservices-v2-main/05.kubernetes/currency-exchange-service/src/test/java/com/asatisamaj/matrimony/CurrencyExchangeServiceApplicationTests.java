@@ -1,13 +1,12 @@
-package com.asatisamaj.matrimony;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class CurrencyExchangeServiceApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+/*
+ * package com.asatisamaj.matrimony;
+ * 
+ * import org.junit.jupiter.api.Test; import
+ * org.springframework.boot.test.context.SpringBootTest;
+ * 
+ * @SpringBootTest class CurrencyExchangeServiceApplicationTests {
+ * 
+ * @Test void contextLoads() { }
+ * 
+ * }
+ */
