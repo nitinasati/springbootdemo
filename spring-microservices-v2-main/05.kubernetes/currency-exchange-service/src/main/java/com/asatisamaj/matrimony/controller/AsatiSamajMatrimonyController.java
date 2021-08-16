@@ -51,9 +51,13 @@ public class AsatiSamajMatrimonyController {
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
             response.put("resultSortedBy", pageTuts.getPageable().getSort());
+            response.put("status", "Success");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "Error");
+            response.put("statusMessage", e);
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

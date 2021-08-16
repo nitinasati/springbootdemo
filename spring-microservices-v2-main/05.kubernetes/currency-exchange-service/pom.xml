@@ -101,6 +101,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<jvmArguments>
+						-Djasypt.encryptor.password=wagle@123
+						-Dspring.profiles.active=local
+					</jvmArguments>
 					<image>
 						<name>nitinasati/mmv2-${project.artifactId}:${project.version}</name>
 					</image>
