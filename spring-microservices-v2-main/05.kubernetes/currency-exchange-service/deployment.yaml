@@ -38,7 +38,7 @@ spec:
           httpGet:
             port: 8000
             path: /actuator/health/liveness
-          initialDelaySeconds: 10
+          initialDelaySeconds: 60
           periodSeconds: 10
       imagePullSecrets: 
         - name: regcred 
