@@ -27,10 +27,9 @@ spec:
       - image: nitinasati/asatisamaj-matrimony-service:0.0.15-SNAPSHOT
         imagePullPolicy: IfNotPresent
         name: asatisamaj-matrimony
-        args: ["-Djasypt.encryptor.password=wagle@123"]
-        envFrom:
-         - configMapRef:
-             name: asatisamaj-service
+        env: 
+        - name: jasypt.encryptor.password
+          value: wagle@123
         readinessProbe: 
           httpGet:
             port: 8000
