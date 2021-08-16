@@ -19,7 +19,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: asatisamaj-matrimony
     spec:
@@ -43,3 +42,21 @@ spec:
       imagePullSecrets: 
         - name: regcred 
       restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: asatisamaj-matrimony
+  name: asatisamaj-matrimony
+  namespace: default
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: currency-exchange
+  sessionAffinity: None
+  type: LoadBalancer
