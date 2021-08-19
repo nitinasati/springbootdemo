@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.asatisamaj.matrimony.microservices</groupId>
     <artifactId>asatisamaj-matrimony-service</artifactId>
-    <version>0.0.15-SNAPSHOT</version> <!-- CHANGE-KUBERNETES -->
+    <version>0.0.16-SNAPSHOT</version> <!-- CHANGE-KUBERNETES -->
     <name>asatisamaj-matrimony-service-kubernetes</name> <!-- CHANGE-KUBERNETES -->
     <description>Asatisamaj-matrimony for Spring Boot</description>
 

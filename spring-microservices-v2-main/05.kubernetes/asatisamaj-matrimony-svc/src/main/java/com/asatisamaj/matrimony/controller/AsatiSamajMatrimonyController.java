@@ -1,5 +1,6 @@
 package com.asatisamaj.matrimony.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.expression.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,26 @@ public class AsatiSamajMatrimonyController {
 
     @Autowired
     private MemberDetailsRepository memberRepository;
+
+    private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
+    private final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    private java.util.Date parseDate(String date) throws java.text.ParseException {
+        try {
+            return DATE_FORMAT.parse(date);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    private java.util.Date parseTimestamp(String timestamp) throws java.text.ParseException {
+        try {
+            return DATE_TIME_FORMAT.parse(timestamp);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 
     @PostMapping("/asatisamaj/matrimony/getMemberListByFilterPage")
     public ResponseEntity<Map<String, Object>> getMemberListByFilterPage(
@@ -46,7 +68,7 @@ public class AsatiSamajMatrimonyController {
 
             memberDetails = pageTuts.getContent();
             Map<String, Object> response = new HashMap<>();
-            response.put("MemberDetails", memberDetails);
+            response.put("memberDetails", memberDetails);
             response.put("currentPage", pageTuts.getNumber());
             response.put("totalItems", pageTuts.getTotalElements());
             response.put("totalPages", pageTuts.getTotalPages());
@@ -57,6 +79,7 @@ public class AsatiSamajMatrimonyController {
             Map<String, Object> response = new HashMap<>();
             response.put("status", "Error");
             response.put("statusMessage", e);
+            e.printStackTrace();
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

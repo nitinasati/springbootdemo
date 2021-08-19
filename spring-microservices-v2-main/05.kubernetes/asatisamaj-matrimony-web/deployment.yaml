@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: asatisamaj-matrimony
-  name: asatisamaj-matrimony
+    app: asatisamaj-matrimony-web
+  name: asatisamaj-matrimony-web
   namespace: default
 spec:
   progressDeadlineSeconds: 600
@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: asatisamaj-matrimony
+      app: asatisamaj-matrimony-web
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -20,22 +20,24 @@ spec:
   template:
     metadata:
       labels:
-        app: asatisamaj-matrimony
+        app: asatisamaj-matrimony-web
     spec:
       containers:
-      - image: nitinasati/asatisamaj-matrimony-service:0.0.15-SNAPSHOT
+      - image: nitinasati/asatisamaj-matrimony-web:0.0.1-SNAPSHOT
         imagePullPolicy: IfNotPresent
-        name: asatisamaj-matrimony
+        name: asatisamaj-matrimony-web
         envFrom:
-          - secretRef:
+         - secretRef:
              name: asatisamaj-service-config
+         - configMapRef:
+             name: asatisamaj-matrimony-web-config
         readinessProbe: 
           httpGet:
-            port: 8000
+            port: 8010
             path: /actuator/health/readiness
         livenessProbe: 
           httpGet:
-            port: 8000
+            port: 8010
             path: /actuator/health/liveness
           initialDelaySeconds: 60
           periodSeconds: 10
@@ -47,16 +49,24 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: asatisamaj-matrimony
-  name: asatisamaj-matrimony
+    app: asatisamaj-matrimony-web
+  name: asatisamaj-matrimony-web
   namespace: default
 spec:
   externalTrafficPolicy: Cluster
   ports:
-  - port: 8000
+  - port: 8010
     protocol: TCP
-    targetPort: 8000
+    targetPort: 8010
   selector:
-    app: asatisamaj-matrimony
+    app: asatisamaj-matrimony-web
   sessionAffinity: None
   type: LoadBalancer
+---
+apiVersion: v1
+data:
+    ASATISAMAJ_SERVICE_URI: http://asatisamaj-matrimony-svc
+kind: ConfigMap
+metadata:
+  name: asatisamaj-matrimony-web-config
+  namespace: default

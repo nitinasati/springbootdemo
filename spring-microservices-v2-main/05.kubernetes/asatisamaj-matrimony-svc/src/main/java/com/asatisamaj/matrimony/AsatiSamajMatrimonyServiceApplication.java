@@ -7,9 +7,9 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 
 @EnableEncryptableProperties
 @SpringBootApplication
-public class CurrencyExchangeServiceApplication {
+public class AsatiSamajMatrimonyServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CurrencyExchangeServiceApplication.class, args);
+		SpringApplication.run(AsatiSamajMatrimonyServiceApplication.class, args);
 	}
 }

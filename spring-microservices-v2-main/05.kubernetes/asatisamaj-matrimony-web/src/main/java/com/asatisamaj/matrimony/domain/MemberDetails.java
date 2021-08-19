@@ -1,58 +1,34 @@
-package com.asatisamaj.matrimony.entities;
+package com.asatisamaj.matrimony.domain;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MemberDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    
     private Long memberId;
-        
-    
     private String samajArea;
-    
-    
     private String fullName;
-    
-    
     private String fatherName;
-    
-    
     private String motherName;
     private String grandFather;
-    
-    
     private String gender;
+    private int age;
     private Date birthDate;
     private String ageRange;
     private String height;
     private String weight;
     private String complexion;
-    
-    
     private Boolean manglik;
-    
-    
     private String education;
     private String educationDetails;
     private String boardUniversity;
-    
-    
     private String occupation;
     private String occupationDetails;
     private String fullAddress;
     private String cityState;
-    
-    
     private String mobile1;
     private String mobile2;
     private String email;
@@ -61,23 +37,17 @@ public class MemberDetails {
     private String marriedBrothers;
     private String sisters;
     private String marriedSisters;
-    
     private String vansh;
-    
     private String gotra;
     private String requirement;
     private String imagePath;
-    
-    
+
     private String status;
-    
-    
+
     private Date insertDate;
-    
-    
+
     private String insertUser;
-    
-    
+
     private String insertProgram;
     private Date updateDate;
     private String updateUser;
@@ -85,57 +55,6 @@ public class MemberDetails {
 
     public MemberDetails() {
 
-    }
-
-    public MemberDetails(Long id, String samajArea, String fullName, String fatherName, String motherName,
-            String grandFather, String gender, Date birthDate, String ageRange, String height, String weight,
-            String complexion, Boolean manglik, String education, String boardUniversity, String occupation,
-            String occupationDetails, String fullAddress, String cityState, String mobile1, String mobile2,
-            String email, String fatherOccupation, String brothers, String marriedBrothers, String sisters,
-            String marriedSisters, String vansh, String gotra, String requirement, String imagePath, String status,
-            Date insertDate, String insertUser, String insertProgram, Date updateDate, String updateUser,
-            String updateProgram, Long memberId, String educationDetails) {
-        super();
-        this.id = id;
-        this.samajArea = samajArea;
-        this.fullName = fullName;
-        this.fatherName = fatherName;
-        this.motherName = motherName;
-        this.grandFather = grandFather;
-        this.gender = gender;
-        this.birthDate = birthDate;
-        this.ageRange = ageRange;
-        this.height = height;
-        this.weight = weight;
-        this.complexion = complexion;
-        this.manglik = manglik;
-        this.education = education;
-        this.boardUniversity = boardUniversity;
-        this.occupation = occupation;
-        this.occupationDetails = occupationDetails;
-        this.fullAddress = fullAddress;
-        this.cityState = cityState;
-        this.mobile1 = mobile1;
-        this.mobile2 = mobile2;
-        this.email = email;
-        this.fatherOccupation = fatherOccupation;
-        this.brothers = brothers;
-        this.marriedBrothers = marriedBrothers;
-        this.sisters = sisters;
-        this.marriedSisters = marriedSisters;
-        this.vansh = vansh;
-        this.gotra = gotra;
-        this.requirement = requirement;
-        this.imagePath = imagePath;
-        this.status = status;
-        this.insertDate = insertDate;
-        this.insertUser = insertUser;
-        this.insertProgram = insertProgram;
-        this.updateDate = updateDate;
-        this.updateUser = updateUser;
-        this.updateProgram = updateProgram;
-        this.memberId = memberId;
-        this.educationDetails = educationDetails;
     }
 
     public Long getId() {
@@ -456,5 +375,30 @@ public class MemberDetails {
 
     public void setEducationDetails(String educationDetails) {
         this.educationDetails = educationDetails;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberDetails [id=" + id + ", memberId=" + memberId + ", samajArea=" + samajArea + ", fullName="
+                + fullName + ", fatherName=" + fatherName + ", motherName=" + motherName + ", grandFather="
+                + grandFather + ", gender=" + gender + ", birthDate=" + birthDate + ", ageRange=" + ageRange
+                + ", height=" + height + ", weight=" + weight + ", complexion=" + complexion + ", manglik=" + manglik
+                + ", education=" + education + ", educationDetails=" + educationDetails + ", boardUniversity="
+                + boardUniversity + ", occupation=" + occupation + ", occupationDetails=" + occupationDetails
+                + ", fullAddress=" + fullAddress + ", cityState=" + cityState + ", mobile1=" + mobile1 + ", mobile2="
+                + mobile2 + ", email=" + email + ", fatherOccupation=" + fatherOccupation + ", brothers=" + brothers
+                + ", marriedBrothers=" + marriedBrothers + ", sisters=" + sisters + ", marriedSisters=" + marriedSisters
+                + ", vansh=" + vansh + ", gotra=" + gotra + ", requirement=" + requirement + ", imagePath=" + imagePath
+                + ", status=" + status + ", insertDate=" + insertDate + ", insertUser=" + insertUser
+                + ", insertProgram=" + insertProgram + ", updateDate=" + updateDate + ", updateUser=" + updateUser
+                + ", updateProgram=" + updateProgram + ", age = " + age + "]";
     }
 }
