@@ -1,11 +1,21 @@
 package com.asatisamaj.matrimony.domain;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.asatisamaj.matrimony.MatrimonyHomePage;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MemberDetails {
+
+    private static final Logger LOGGER = LogManager.getLogger(MatrimonyHomePage.class);
 
     private Long id;
     private Long memberId;
@@ -16,7 +26,8 @@ public class MemberDetails {
     private String grandFather;
     private String gender;
     private int age;
-    private Date birthDate;
+
+    private String birthDate;
     private String ageRange;
     private String height;
     private String weight;
@@ -85,7 +96,21 @@ public class MemberDetails {
         return gender;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
+
+        Date date = null;
+        try {
+            if (null != birthDate) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+ss:ss", Locale.ENGLISH); // Existing
+                date = simpleDateFormat.parse(birthDate); // Returns Date Format,
+                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd-MMM-yyyy"); // New Pattern
+                birthDate = simpleDateFormat1.format(date);
+            }
+        } catch (ParseException e) {
+            
+        }
+
+        LOGGER.info("gettting Birth Date {}", birthDate);
         return birthDate;
     }
 
@@ -237,7 +262,8 @@ public class MemberDetails {
         this.gender = gender;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
+        LOGGER.info("Setting Birth Date {}", birthDate);
         this.birthDate = birthDate;
     }
 
@@ -385,20 +411,4 @@ public class MemberDetails {
         this.age = age;
     }
 
-    @Override
-    public String toString() {
-        return "MemberDetails [id=" + id + ", memberId=" + memberId + ", samajArea=" + samajArea + ", fullName="
-                + fullName + ", fatherName=" + fatherName + ", motherName=" + motherName + ", grandFather="
-                + grandFather + ", gender=" + gender + ", birthDate=" + birthDate + ", ageRange=" + ageRange
-                + ", height=" + height + ", weight=" + weight + ", complexion=" + complexion + ", manglik=" + manglik
-                + ", education=" + education + ", educationDetails=" + educationDetails + ", boardUniversity="
-                + boardUniversity + ", occupation=" + occupation + ", occupationDetails=" + occupationDetails
-                + ", fullAddress=" + fullAddress + ", cityState=" + cityState + ", mobile1=" + mobile1 + ", mobile2="
-                + mobile2 + ", email=" + email + ", fatherOccupation=" + fatherOccupation + ", brothers=" + brothers
-                + ", marriedBrothers=" + marriedBrothers + ", sisters=" + sisters + ", marriedSisters=" + marriedSisters
-                + ", vansh=" + vansh + ", gotra=" + gotra + ", requirement=" + requirement + ", imagePath=" + imagePath
-                + ", status=" + status + ", insertDate=" + insertDate + ", insertUser=" + insertUser
-                + ", insertProgram=" + insertProgram + ", updateDate=" + updateDate + ", updateUser=" + updateUser
-                + ", updateProgram=" + updateProgram + ", age = " + age + "]";
-    }
 }

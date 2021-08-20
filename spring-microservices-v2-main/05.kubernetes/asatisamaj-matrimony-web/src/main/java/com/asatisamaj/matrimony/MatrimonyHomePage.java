@@ -47,7 +47,6 @@ public class MatrimonyHomePage extends UI {
     @Value("${asatisamaj.service.url}")
     private String serviceUrl;
 
-    
     @Autowired
     private GenericService genericService;
 
@@ -67,8 +66,7 @@ public class MatrimonyHomePage extends UI {
     private void setupLayout() {
         layout = new VerticalLayout();
         layout.setWidth("100%");
-        layout.setMargin(true);
-        layout.setSpacing(true);
+        layout.setResponsive(true);
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         setContent(layout);
     }
@@ -87,7 +85,9 @@ public class MatrimonyHomePage extends UI {
 
     private void addForm() {
         FormLayout formLayout = new FormLayout();
-        formLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        formLayout.setResponsive(true);
+        formLayout.setWidth("100%");
+        formLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 
         matrimonySearchCriteria.setPage(0);
         matrimonySearchCriteria.setSize(20);
@@ -105,41 +105,47 @@ public class MatrimonyHomePage extends UI {
 
         TextField memberIdtxtField = new TextField();
         memberIdtxtField.setPlaceholder("MemberId");
-
+        memberIdtxtField.setResponsive(true);
+        memberIdtxtField.setSizeFull();
         ComboBox<String> samajAreaCmbField = new ComboBox<>();
         samajAreaCmbField.setItems(dropDownValues.getGetSamajArea());
         samajAreaCmbField.setPlaceholder("SamajArea");
+        samajAreaCmbField.setSizeFull();
 
         ComboBox<String> genderCmbField = new ComboBox<>();
         genderCmbField.setItems("Male", "Female");
         genderCmbField.setPlaceholder("Gender");
-
+        genderCmbField.setSizeFull();
         ComboBox<String> educationCmbField = new ComboBox<>();
         educationCmbField.setItems(dropDownValues.getGetEducation());
         educationCmbField.setPlaceholder("Education");
+        educationCmbField.setSizeFull();
 
         ComboBox<String> educationDetailsCmbField = new ComboBox<>();
         educationDetailsCmbField.setItems(dropDownValues.getGetEducationDetails());
         educationDetailsCmbField.setPlaceholder("Education Details");
+        educationDetailsCmbField.setSizeFull();
 
         ComboBox<String> occupationCmbField = new ComboBox<>();
         occupationCmbField.setItems(dropDownValues.getGetOccupation());
         occupationCmbField.setPlaceholder("Occupation");
-
+        occupationCmbField.setSizeFull();
         ComboBox<String> ageRangeCmbField = new ComboBox<>();
         ageRangeCmbField.setItems(dropDownValues.getGetAgeRange());
         ageRangeCmbField.setPlaceholder("AgeRange");
-
+        ageRangeCmbField.setScrollToSelectedItem(true);
+        ageRangeCmbField.setSizeFull();
         Grid<MemberDetails> grid = new Grid<>(MemberDetails.class);
         grid.setItems(matrimony.getMemberDetails());
         grid.setWidth("100%");
         grid.setHeight("500");
         grid.removeColumn("id");
 
-        grid.setColumns("memberId", "fullName", "fatherName","age", "motherName", "grandFather", "gender", "samajArea",
+        grid.setColumns("memberId", "fullName", "fatherName", "age", "motherName", "grandFather", "gender", "samajArea",
                 "birthDate", "complexion", "manglik", "education", "educationDetails", "boardUniversity", "occupation",
                 "occupationDetails", "fullAddress", "cityState", "mobile1", "mobile2", "email", "fatherOccupation",
                 "brothers", "marriedBrothers", "sisters", "marriedSisters", "vansh", "gotra", "requirement");
+        
         Button nextButton = new Button("Next page", e -> {
             if (matrimony.getCurrentPage() + 1 >= matrimony.getTotalPages()) {
                 return;
@@ -178,13 +184,16 @@ public class MatrimonyHomePage extends UI {
             pageDetails.setValue((matrimony.getCurrentPage() + 1) + " of " + matrimony.getTotalPages());
             grid.setItems(matrimony.getMemberDetails());
         });
+
+        searchBtn.setSizeFull();
         HorizontalLayout layoutSearchFields = new HorizontalLayout();
-        layoutSearchFields.addComponents(memberIdtxtField, samajAreaCmbField, ageRangeCmbField, genderCmbField,
+        layoutSearchFields.setWidth("100%");
+        layoutSearchFields.addComponents(memberIdtxtField, samajAreaCmbField, genderCmbField, ageRangeCmbField,
                 educationCmbField, educationDetailsCmbField, occupationCmbField, searchBtn);
-
         HorizontalLayout layoutPagination = new HorizontalLayout();
+        layoutPagination.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         layoutPagination.addComponents(previousButton, pageDetails, nextButton);
-
+        
         formLayout.addComponents(layoutSearchFields, grid, layoutPagination);
 
         layout.addComponent(formLayout);
