@@ -1,6 +1,5 @@
 package com.asatisamaj.matrimony.domain;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +31,7 @@ public class MemberDetails {
     private String height;
     private String weight;
     private String complexion;
-    private Boolean manglik;
+    private String manglik;
     private String education;
     private String educationDetails;
     private String boardUniversity;
@@ -97,20 +96,6 @@ public class MemberDetails {
     }
 
     public String getBirthDate() {
-
-        Date date = null;
-        try {
-            if (null != birthDate) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+ss:ss", Locale.ENGLISH); // Existing
-                date = simpleDateFormat.parse(birthDate); // Returns Date Format,
-                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd-MMM-yyyy"); // New Pattern
-                birthDate = simpleDateFormat1.format(date);
-            }
-        } catch (ParseException e) {
-            
-        }
-
-        LOGGER.info("gettting Birth Date {}", birthDate);
         return birthDate;
     }
 
@@ -130,7 +115,16 @@ public class MemberDetails {
         return complexion;
     }
 
-    public Boolean getManglik() {
+    public String getManglik() {
+        if (null != manglik) {
+            if (manglik.equalsIgnoreCase("true"))
+                manglik = "Yes";
+            else if (manglik.equalsIgnoreCase("false"))
+                manglik = "No";
+        } else {
+            manglik = "Not Available";
+        }
+
         return manglik;
     }
 
@@ -263,7 +257,21 @@ public class MemberDetails {
     }
 
     public void setBirthDate(String birthDate) {
+        Date date = null;
+        try {
+            if (null != birthDate) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Existing
+                date = simpleDateFormat.parse(birthDate); // Returns Date Format,
+                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd-MMM-yyyy"); // New Pattern
+                birthDate = simpleDateFormat1.format(date);
+            } else
+                birthDate = "Not Available";
+        } catch (ParseException e) {
+
+        }
+
         LOGGER.info("Setting Birth Date {}", birthDate);
+
         this.birthDate = birthDate;
     }
 
@@ -283,7 +291,7 @@ public class MemberDetails {
         this.complexion = complexion;
     }
 
-    public void setManglik(Boolean manglik) {
+    public void setManglik(String manglik) {
         this.manglik = manglik;
     }
 
