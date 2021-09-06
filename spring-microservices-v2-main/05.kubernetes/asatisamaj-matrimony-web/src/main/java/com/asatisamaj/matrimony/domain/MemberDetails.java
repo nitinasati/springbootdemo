@@ -1,44 +1,55 @@
 package com.asatisamaj.matrimony.domain;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.sql.Date;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import com.asatisamaj.matrimony.MatrimonyHomePage;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Formula;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class MemberDetails {
 
-    private static final Logger LOGGER = LogManager.getLogger(MatrimonyHomePage.class);
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long memberId;
+
     private String samajArea;
+
     private String fullName;
+
     private String fatherName;
+
     private String motherName;
     private String grandFather;
-    private String gender;
-    private int age;
 
-    private String birthDate;
+    private String gender;
+
+    @Formula("YEAR(CURDATE()) - YEAR(COALESCE(birth_date,CURDATE()))")
+    private int age;
+    
+    private Date birthDate;
+
     private String ageRange;
     private String height;
     private String weight;
     private String complexion;
-    private String manglik;
+
+    private Boolean manglik;
+
     private String education;
     private String educationDetails;
     private String boardUniversity;
+
     private String occupation;
     private String occupationDetails;
     private String fullAddress;
     private String cityState;
+
     private String mobile1;
     private String mobile2;
     private String email;
@@ -47,7 +58,9 @@ public class MemberDetails {
     private String marriedBrothers;
     private String sisters;
     private String marriedSisters;
+
     private String vansh;
+
     private String gotra;
     private String requirement;
     private String imagePath;
@@ -65,6 +78,58 @@ public class MemberDetails {
 
     public MemberDetails() {
 
+    }
+
+    public MemberDetails(Long id, String samajArea, String fullName, String fatherName, String motherName,
+            String grandFather, String gender, Date birthDate, String ageRange, String height, String weight,
+            String complexion, Boolean manglik, String education, String boardUniversity, String occupation,
+            String occupationDetails, String fullAddress, String cityState, String mobile1, String mobile2,
+            String email, String fatherOccupation, String brothers, String marriedBrothers, String sisters,
+            String marriedSisters, String vansh, String gotra, String requirement, String imagePath, String status,
+            Date insertDate, String insertUser, String insertProgram, Date updateDate, String updateUser,
+            String updateProgram, Long memberId, String educationDetails, int age) {
+        super();
+        this.id = id;
+        this.samajArea = samajArea;
+        this.fullName = fullName;
+        this.fatherName = fatherName;
+        this.motherName = motherName;
+        this.grandFather = grandFather;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.ageRange = ageRange;
+        this.height = height;
+        this.weight = weight;
+        this.complexion = complexion;
+        this.manglik = manglik;
+        this.education = education;
+        this.boardUniversity = boardUniversity;
+        this.occupation = occupation;
+        this.occupationDetails = occupationDetails;
+        this.fullAddress = fullAddress;
+        this.cityState = cityState;
+        this.mobile1 = mobile1;
+        this.mobile2 = mobile2;
+        this.email = email;
+        this.fatherOccupation = fatherOccupation;
+        this.brothers = brothers;
+        this.marriedBrothers = marriedBrothers;
+        this.sisters = sisters;
+        this.marriedSisters = marriedSisters;
+        this.vansh = vansh;
+        this.gotra = gotra;
+        this.requirement = requirement;
+        this.imagePath = imagePath;
+        this.status = status;
+        this.insertDate = insertDate;
+        this.insertUser = insertUser;
+        this.insertProgram = insertProgram;
+        this.updateDate = updateDate;
+        this.updateUser = updateUser;
+        this.updateProgram = updateProgram;
+        this.memberId = memberId;
+        this.educationDetails = educationDetails;
+        this.age = age;
     }
 
     public Long getId() {
@@ -95,7 +160,7 @@ public class MemberDetails {
         return gender;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
@@ -115,16 +180,7 @@ public class MemberDetails {
         return complexion;
     }
 
-    public String getManglik() {
-        if (null != manglik) {
-            if (manglik.equalsIgnoreCase("true"))
-                manglik = "Yes";
-            else if (manglik.equalsIgnoreCase("false"))
-                manglik = "No";
-        } else {
-            manglik = "Not Available";
-        }
-
+    public Boolean getManglik() {
         return manglik;
     }
 
@@ -256,22 +312,7 @@ public class MemberDetails {
         this.gender = gender;
     }
 
-    public void setBirthDate(String birthDate) {
-        Date date = null;
-        try {
-            if (null != birthDate) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Existing
-                date = simpleDateFormat.parse(birthDate); // Returns Date Format,
-                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd-MMM-yyyy"); // New Pattern
-                birthDate = simpleDateFormat1.format(date);
-            } else
-                birthDate = "Not Available";
-        } catch (ParseException e) {
-
-        }
-
-        LOGGER.info("Setting Birth Date {}", birthDate);
-
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -291,7 +332,7 @@ public class MemberDetails {
         this.complexion = complexion;
     }
 
-    public void setManglik(String manglik) {
+    public void setManglik(Boolean manglik) {
         this.manglik = manglik;
     }
 
@@ -418,5 +459,4 @@ public class MemberDetails {
     public void setAge(int age) {
         this.age = age;
     }
-
 }

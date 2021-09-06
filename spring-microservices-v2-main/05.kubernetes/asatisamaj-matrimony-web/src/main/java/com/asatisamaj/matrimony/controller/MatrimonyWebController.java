@@ -11,21 +11,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
-import com.asatisamaj.matrimony.entities.MemberDetails;
-import com.asatisamaj.matrimony.pojo.MatrimonySearchCriteria;
-import com.asatisamaj.matrimony.repository.MemberDetailsRepository;
+import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
+import com.asatisamaj.matrimony.domain.MemberDetails;
+import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
 import com.asatisamaj.matrimony.utils.GenericSpecification;
 
-@RestController
-public class AsatiSamajMatrimonyController {
+@Controller
+public class MatrimonyWebController {
 
     @Autowired
     private MemberDetailsRepository memberRepository;
-    @PostMapping("/asatisamaj/matrimony/getMemberListByFilterPage")
+    
+    
+    @PostMapping("/matrimony/web/getmemberdetails")
     public ResponseEntity<Map<String, Object>> getMemberListByFilterPage(
             @RequestBody MatrimonySearchCriteria matrimonySearchCriteria) {
 

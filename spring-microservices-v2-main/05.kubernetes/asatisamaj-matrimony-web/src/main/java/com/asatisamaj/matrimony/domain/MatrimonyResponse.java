@@ -11,13 +11,13 @@ public class MatrimonyResponse implements Serializable{
      * 
      */
     private static final long serialVersionUID = 1L;
-    private String totalItems;
+    private long totalItems;
     private int totalPages;
     private List<MemberDetails> memberDetails;
     private int currentPage;
     private String status;
 
-    public String getTotalItems() {
+    public long getTotalItems() {
         return totalItems;
     }
 
@@ -37,8 +37,8 @@ public class MatrimonyResponse implements Serializable{
         return status;
     }
 
-    public void setTotalItems(String totalItems) {
-        this.totalItems = totalItems;
+    public void setTotalItems(long l) {
+        this.totalItems = l;
     }
 
     public void setTotalPages(int totalPages) {

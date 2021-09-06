@@ -1,34 +1,55 @@
 package com.asatisamaj.matrimony.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.asatisamaj.matrimony.domain.MatrimonyResponse;
-import com.asatisamaj.matrimony.utils.HelperUtils;
+import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
+import com.asatisamaj.matrimony.domain.MemberDetails;
+import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
+import com.asatisamaj.matrimony.utils.GenericSpecification;
 
 @Service
 public class GenericService {
 
-
     @Autowired
-    @Qualifier("restTemplateBean")
-    private RestTemplate restTemplate;
+    private MemberDetailsRepository memberRepository;
 
-    public ResponseEntity<?> retriveSearchResult(String serviceUrl,Object object) {
-        HttpHeaders header = new HttpHeaders();
-        header.setContentType(MediaType.APPLICATION_JSON);
+    public MatrimonyResponse retriveSearchResult(MatrimonySearchCriteria matrimonySearchCriteria) {
 
-        HttpEntity<Object> requestMap = new HttpEntity<>(object, header);
-        HelperUtils.jacksonConverter(restTemplate);
-        return restTemplate.exchange(serviceUrl, HttpMethod.POST, requestMap, MatrimonyResponse.class);
+        MatrimonyResponse matrimonyResponse = new MatrimonyResponse();
+        try {
+
+            GenericSpecification<MemberDetails> genericSpecification = new GenericSpecification<>();
+            matrimonySearchCriteria.getSearchCriteriaList().forEach(searchCriteria -> {
+                genericSpecification.add(searchCriteria);
+            });
+
+            List<MemberDetails> memberDetails;
+            Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize(),
+                    Sort.by(matrimonySearchCriteria.getSortColumn()));
+
+            Page<MemberDetails> pageTuts;
+            pageTuts = memberRepository.findAll(genericSpecification, paging);
+
+            memberDetails = pageTuts.getContent();
+
+            matrimonyResponse.setMemberDetails(memberDetails);
+            matrimonyResponse.setCurrentPage(pageTuts.getNumber());
+            matrimonyResponse.setTotalPages(pageTuts.getTotalPages());
+            matrimonyResponse.setTotalItems(pageTuts.getTotalElements());
+            return matrimonyResponse;
+        } catch (Exception e) {
+            matrimonyResponse.setStatus("failure");
+            return matrimonyResponse;
+        }
+
     }
+
 }
