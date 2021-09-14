@@ -2,8 +2,9 @@ $(document).ready(function() {
 	var datatable = $('#paginatedTable').DataTable({
 		"processing": true,
 		"serverSide": true,
+		"responsive": true,
 		"order": [[0, "desc"]],
-		"dom": '<"top"pB>rt<"clear"><"bottom"ipB>',
+		"dom": '<"top"B>rt<"clear"><"bottom"ipB>',
 		"pagingType": "simple_numbers",
 		"ajax": {
 			"url": "/users/paginated/getmemberlist",
@@ -23,49 +24,39 @@ $(document).ready(function() {
 		"columns": [
 			{ "data": "memberId", "name": "memberId", "title": "Member ID" },
 			{ "data": "fullName", "name": "fullName", "title": "Full Name" },
+			{ "data": "age", "name": "age", "title": "Age" },
 			{ "data": "fatherName", "name": "fatherName", "title": "Father's Name'" },
-			{ "data": "motherName", "name": "motherName", "title": "Mother's Name'" },
+			{ "data": "birthDate", "name": "birthDate", "title": "Birth Date" },
+			{ "data": "mobile1", "name": "mobile1", "title": "Mobile 1" },
+			{ "data": "educationDetails", "name": "educationDetails", "title": "Education Details" },
+			{ "data": "occupation", "name": "occupation", "title": "Occupation" },
+			{ "data": "cityState", "name": "cityState", "title": "CityState" },
 			{ "data": "samajArea", "name": "samajArea", "title": "Samaj Area'" },
+			{ "data": "motherName", "name": "motherName", "title": "Mother's Name'" },
 			{ "data": "grandFather", "name": "grandFather", "title": "Grandfather's Name'" },
 			{ "data": "gender", "name": "gender", "title": "Gender" },
-			{ "data": "age", "name": "age", "title": "Age" },
-			{ "data": "birthDate", "name": "birthDate", "title": "Birth Date" },
 			{ "data": "height", "name": "height", "title": "Height" },
-			{ "data": "weight", "name": "weight", "title": "Weight" },
-			{ "data": "complexion", "name": "complexion", "title": "Complexion" },
-			{ "data": "manglik", "name": "manglik", "title": "Manglik" },
-			{ "data": "education", "name": "education", "title": "Education" },
-			{ "data": "educationDetails", "name": "educationDetails", "title": "Education Details" },
-			{ "data": "boardUniversity", "name": "boardUniversity", "title": "Board/University" },
-			{ "data": "occupation", "name": "occupation", "title": "Occupation" },
-			{ "data": "occupationDetails", "name": "occupationDetails", "title": "Occupation Details" },
-			{ "data": "fullAddress", "name": "fullAddress", "title": "Full Address" },
-			{ "data": "cityState", "name": "cityState", "title": "CityState" },
-			{ "data": "mobile1", "name": "mobile1", "title": "Mobile 1" },
-			{ "data": "mobile2", "name": "mobile2", "title": "Mobile 2" },
-			{ "data": "email", "name": "email", "title": "Email" },
-			{ "data": "fatherOccupation", "name": "fatherOccupation", "title": "Father's Occupation" },
-			{ "data": "brothers", "name": "brothers", "title": "Brothers" },
-			{ "data": "marriedBrothers", "name": "marriedBrothers", "title": "Married Brothers" },
-			{ "data": "sisters", "name": "sisters", "title": "Sisters" },
-			{ "data": "marriedSisters", "name": "marriedSisters", "title": "Married Sisters" },
-			{ "data": "vansh", "name": "vansh", "title": "Vansh" },
 			{ "data": "gotra", "name": "gotra", "title": "Gotra" },
-			{ "data": "requirement", "name": "requirement", "title": "Requirement" }
+			{ "data": "manglik", "name": "manglik", "title": "Manglik" },
+			{ "data": "mobile2", "name": "mobile2", "title": "Mobile 2" },
+			{ "data": "education", "name": "education", "title": "Education" },
+			{ "data": "boardUniversity", "name": "boardUniversity", "title": "Board/University" },
+			{ "data": "occupationDetails", "name": "occupationDetails", "title": "Occupation Details" },
+			{ "data": "fatherOccupation", "name": "fatherOccupation", "title": "Father's Occupation" },
+			{ "data": "fullAddress", "name": "fullAddress", "title": "Full Address" },
+			{ "data": "email", "name": "email", "title": "Email" },
+			{ "data": "comments", "name": "comments", "title": "Other Details" }
 		]
 	});
 	$('#searchBtn').click(function() {
 		datatable.draw();
 	});
 
- 
-    $('#paginatedTable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-    } );
- 
-    $('#button').click( function () {
-        alert( table.rows('.selected').data().length +' row(s) selected' );
-    } );
+	$('#btn-show-all-doc').on('click', expandCollapseAll);
+
+	function expandCollapseAll() {
+		datatable.rows('.parent').nodes().to$().find('td:first-child').trigger('click').length || datatable.rows(':not(.parent)').nodes().to$().find('td:first-child').trigger('click')
+	}
 
 	$.ajax({
 		type: "GET",
@@ -108,7 +99,7 @@ $(document).ready(function() {
 		url: "/matrimony/rest/api/getdropdownoccupation",
 		dataType: "json",
 		success: function(data) {
-			$.each(data.occupationDropDown, function(i,data) {
+			$.each(data.occupationDropDown, function(i, data) {
 				var div_data = "<option value='" + data.value + "'>" + data.text + "</option>";
 				$(div_data).appendTo('#searchByOccupation');
 			});

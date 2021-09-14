@@ -13,7 +13,7 @@ public class MatrimonyResponse implements Serializable{
     private static final long serialVersionUID = 1L;
     private long totalItems;
     private int totalPages;
-    private List<MemberDetails> memberDetails;
+    private List<MembersDetail> membersDetail;
     private int currentPage;
     private String status;
 
@@ -25,8 +25,8 @@ public class MatrimonyResponse implements Serializable{
         return totalPages;
     }
 
-    public List<MemberDetails> getMemberDetails() {
-        return memberDetails;
+    public List<MembersDetail> getMemberDetails() {
+        return membersDetail;
     }
 
     public int getCurrentPage() {
@@ -45,8 +45,8 @@ public class MatrimonyResponse implements Serializable{
         this.totalPages = totalPages;
     }
 
-    public void setMemberDetails(List<MemberDetails> memberDetails) {
-        this.memberDetails = memberDetails;
+    public void setMemberDetails(List<MembersDetail> membersDetail) {
+        this.membersDetail = membersDetail;
     }
 
     public void setCurrentPage(int currentPage) {
@@ -60,7 +60,7 @@ public class MatrimonyResponse implements Serializable{
     @Override
     public String toString() {
         return "MatrimonyResponse [totalItems=" + totalItems + ", totalPages=" + totalPages + ", memberDetails="
-                + memberDetails + ", currentPage=" + currentPage + ", status=" + status + "]";
+                + membersDetail + ", currentPage=" + currentPage + ", status=" + status + "]";
     }
 
 }

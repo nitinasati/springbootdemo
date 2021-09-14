@@ -26,13 +26,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
-import com.asatisamaj.matrimony.domain.MemberDetails;
-import com.asatisamaj.matrimony.domain.MemberDetailsDTO;
+import com.asatisamaj.matrimony.domain.MembersDetail;
 import com.asatisamaj.matrimony.domain.SearchCriteria;
 import com.asatisamaj.matrimony.domain.User;
 import com.asatisamaj.matrimony.domain.UserModel;
@@ -58,23 +55,11 @@ public class BaseController {
 	private UserRepository userRepo;
 
 	@Autowired
-	private GenericRepo genericRepo;
-
-	@Autowired
 	private MemberDetailsRepository memberRepository;
 
 	/** The entity manager. */
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	@GetMapping(value = "/")
-	public ModelAndView home(@RequestParam(value = "name", defaultValue = "World") String name) {
-		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("userModel", new MemberDetailsDTO());
-		List<UserModel> userList = genericRepo.getUserModel();
-		mv.addObject("userlist", userList);
-		return mv;
-	}
 
 	@GetMapping(value = "/users/mysql")
 	public String listUsers(Model model) {
@@ -117,7 +102,7 @@ public class BaseController {
 			HttpServletResponse response, Model model) {
 
 		try {
-			DataTableRequest<MemberDetailsDTO> dataTableInRQ = new DataTableRequest<>(request);
+			DataTableRequest<MembersDetail> dataTableInRQ = new DataTableRequest<>(request);
 			PaginationCriteria pagination = dataTableInRQ.getPaginationRequest();
 
 			MatrimonySearchCriteria matrimonySearchCriteria = new MatrimonySearchCriteria();
@@ -126,14 +111,14 @@ public class BaseController {
 			matrimonySearchCriteria.setSortDirection(pagination.getOrderByDirection());
 			matrimonySearchCriteria.setPage(pagination.getPageNumber() / pagination.getPageSize());
 			matrimonySearchCriteria.setSize(pagination.getPageSize());
-			GenericSpecification<MemberDetails> genericSpecification = new GenericSpecification<>();
+			GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
 			searchFields(dataTableInRQ, genericSpecification);
 
 			Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize(),
 					Sort.by(matrimonySearchCriteria.getSortDirection().equalsIgnoreCase("ASC") ? Direction.ASC
 							: Direction.DESC, matrimonySearchCriteria.getSortColumn()));
 
-			Page<MemberDetails> pageTuts;
+			Page<MembersDetail> pageTuts;
 			pageTuts = memberRepository.findAll(genericSpecification, paging);
 
 			Map<String, Object> responseReturn = new HashMap<>();
@@ -226,8 +211,8 @@ public class BaseController {
 	 * @param dataTableInRQ
 	 * @param genericSpecification
 	 */
-	private void searchFields(DataTableRequest<MemberDetailsDTO> dataTableInRQ,
-			GenericSpecification<MemberDetails> genericSpecification) {
+	private void searchFields(DataTableRequest<MembersDetail> dataTableInRQ,
+			GenericSpecification<MembersDetail> genericSpecification) {
 		dataTableInRQ.getColumns().forEach(column -> {
 			if (!column.getSearch().isBlank()) {
 				if (column.getName().equalsIgnoreCase("memberId")) {

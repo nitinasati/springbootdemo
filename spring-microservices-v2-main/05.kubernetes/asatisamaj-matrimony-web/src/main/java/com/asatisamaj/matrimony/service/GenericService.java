@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.asatisamaj.matrimony.domain.MatrimonyResponse;
 import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
-import com.asatisamaj.matrimony.domain.MemberDetails;
+import com.asatisamaj.matrimony.domain.MembersDetail;
 import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
 import com.asatisamaj.matrimony.utils.GenericSpecification;
 
@@ -26,21 +26,21 @@ public class GenericService {
         MatrimonyResponse matrimonyResponse = new MatrimonyResponse();
         try {
 
-            GenericSpecification<MemberDetails> genericSpecification = new GenericSpecification<>();
+            GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
             matrimonySearchCriteria.getSearchCriteriaList().forEach(searchCriteria -> {
                 genericSpecification.add(searchCriteria);
             });
 
-            List<MemberDetails> memberDetails;
+            List<MembersDetail> membersDetail;
             Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize(),
                     Sort.by(matrimonySearchCriteria.getSortColumn()));
 
-            Page<MemberDetails> pageTuts;
+            Page<MembersDetail> pageTuts;
             pageTuts = memberRepository.findAll(genericSpecification, paging);
 
-            memberDetails = pageTuts.getContent();
+            membersDetail = pageTuts.getContent();
 
-            matrimonyResponse.setMemberDetails(memberDetails);
+            matrimonyResponse.setMemberDetails(membersDetail);
             matrimonyResponse.setCurrentPage(pageTuts.getNumber());
             matrimonyResponse.setTotalPages(pageTuts.getTotalPages());
             matrimonyResponse.setTotalItems(pageTuts.getTotalElements());

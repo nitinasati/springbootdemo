@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.asatisamaj.matrimony.domain.DropDown;
 import com.asatisamaj.matrimony.domain.DropDownValues;
 import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
-import com.asatisamaj.matrimony.domain.MemberDetails;
+import com.asatisamaj.matrimony.domain.MembersDetail;
 import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
 import com.asatisamaj.matrimony.utils.GenericSpecification;
 
@@ -36,21 +36,21 @@ public class MatrimonyRestController {
 
 		try {
 
-			GenericSpecification<MemberDetails> genericSpecification = new GenericSpecification<>();
+			GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
 			matrimonySearchCriteria.getSearchCriteriaList().forEach(searchCriteria -> {
 				genericSpecification.add(searchCriteria);
 			});
 
-			List<MemberDetails> memberDetails;
+			List<MembersDetail> membersDetail;
 			Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize(),
 					Sort.by(matrimonySearchCriteria.getSortColumn()));
 
-			Page<MemberDetails> pageTuts;
+			Page<MembersDetail> pageTuts;
 			pageTuts = memberRepository.findAll(genericSpecification, paging);
 
-			memberDetails = pageTuts.getContent();
+			membersDetail = pageTuts.getContent();
 			Map<String, Object> response = new HashMap<>();
-			response.put("memberDetails", memberDetails);
+			response.put("memberDetails", membersDetail);
 			response.put("currentPage", pageTuts.getNumber());
 			response.put("totalItems", pageTuts.getTotalElements());
 			response.put("totalPages", pageTuts.getTotalPages());

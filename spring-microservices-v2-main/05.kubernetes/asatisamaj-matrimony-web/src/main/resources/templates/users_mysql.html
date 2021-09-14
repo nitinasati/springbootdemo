@@ -4,26 +4,19 @@
 <title>Member List</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet" media="screen" />
+<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/searchpanes/1.4.0/css/searchPanes.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/searchpanes/1.4.0/js/dataTables.searchPanes.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 
 <link th:href="@{../css/starter-template.css}" rel="stylesheet"
 	media="screen" />
-<link th:href="@{../css/datatables.min.css}" rel="stylesheet"
-	media="screen" />
-
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"
-	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-	crossorigin="anonymous"></script>
-
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" th:src="@{../js/admin_mysql.js}"></script>
-<script type="text/javascript" th:src="@{../js/datatables.min.js}"></script>
 </head>
 <body>
-
 	<div class="container">
 
 		<div class="starter-template">
@@ -31,7 +24,7 @@
 			<!-- Custom Filter -->
 			<br> <br>
 			<div class="table-responsive">
-				<table>
+				<table class="display" style="width:100%">
 					<tr>
 						<td><input type='text' id='searchByMemberId'
 							placeholder='member id' /> <select id='searchBySamajArea'></select>
@@ -39,60 +32,46 @@
 								<option value=''>--Gender--</option>
 								<option value='male'>Male</option>
 								<option value='female'>Female</option>
-						</select> <select id='searchByAgeRange'></select></td>
-					</tr>
-					<tr>
-
-						<td><select id='searchByEducation'></select> <select
-							id='searchByEducationDetails'></select> <select
-							id='searchByOccupation'></select>
+						</select> <select id='searchByAgeRange'></select>
+						<select id='searchByEducation'></select> <select id='searchByEducationDetails'></select> <select	id='searchByOccupation'></select>
 							<button type="button" id='searchBtn'>Search</button>
-							<button id="button">Row count</button>
+							<button id="btn-show-all-doc">Expand / Collapse</button></td>
 					</tr>
 				</table>
 			</div>
-			<div class="table-responsive">
-				<table id="paginatedTable" class="display" cellspacing="0" width="100%">
+				<table id="paginatedTable" class="display nowrap" style="width:100%">
 					<thead>
 						<tr>
 							<th>memberId</th>
 							<th>fullName</th>
+							<th>age</th>
 							<th>fatherName</th>
-							<th>motherName</th>
+							<th>birthDate</th>
+							<th>mobile1</th>
+							<th>educationDetails</th>
+							<th>occupation</th>
+							<th>cityState</th>
 							<th>samajArea</th>
+							<th>motherName</th>
 							<th>grandFather</th>
 							<th>gender</th>
-							<th>birthDate</th>
-							<th>age</th>
 							<th>height</th>
-							<th>weight</th>
-							<th>complexion</th>
-							<th>manglik</th>
-							<th>education</th>
-							<th>educationDetails</th>
-							<th>boardUniversity</th>
-							<th>occupation</th>
-							<th>occupationDetails</th>
-							<th>fullAddress</th>
-							<th>cityState</th>
-							<th>mobile1</th>
-							<th>mobile2</th>
-							<th>email</th>
-							<th>fatherOccupation</th>
-							<th>brothers</th>
-							<th>marriedBrothers</th>
-							<th>sisters</th>
-							<th>marriedSisters</th>
-							<th>vansh</th>
 							<th>gotra</th>
-							<th>requirement</th>
+							<th>manglik</th>
+							<th>mobile2</th>
+							<th>education</th>
+							<th>boardUniversity</th>
+							<th>occupationDetails</th>
+							<th>fatherOccupation</th>
+							<th>fullAddress</th>
+							<th>email</th>
+							<th>comments</th>
 						</tr>
 					</thead>
 				</table>
 			</div>
 
 
-		</div>
 
 	</div>
 	<!-- /.container -->
