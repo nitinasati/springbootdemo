@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Home</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{js/admin.js}"></script>
+
+</head>
+<body>
+<div class="container">	
+<div class="row">
+
+<div class="col-md-6">
+<div class="panel panel-default" th:fragment="addUserData">
+  <div class="panel-heading">
+    <h3 class="panel-title">Add User Data</h3>
+  </div>
+  <div class="panel-body">
+    <form action="#" th:action="@{/adduser}" th:object="${userModel}" method="post" class="form-horizontal" id="addUserForm">
+		  <div class="form-group">
+		    <label for="fullName" class="col-sm-2 control-label">Full Name</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="fullName" placeholder="Full Name" th:field="*{fullName}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="fatherName" class="col-sm-2 control-label">Father's Name</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="fatherName" placeholder="Father's Name" th:field="*{fatherName}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="mothersName" class="col-sm-2 control-label">Mother's Name</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="motherName" placeholder="Mother's Name" th:field="*{motherName}" />
+		    </div>
+		  </div>		  
+
+		  <div class="form-group">
+		    <label for="grandFather" class="col-sm-2 control-label">Grandfather's Name</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="grandFather" placeholder="Grandfather's Name" th:field="*{grandFather}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="gender" class="col-sm-2 control-label">Gender</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="gender" placeholder="Gender" th:field="*{gender}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="birthDate" class="col-sm-2 control-label">Date of Birth</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="birthDate" placeholder="Date of Birth" th:field="*{birthDate}" />
+		    </div>
+		  </div>		  
+
+		  <div class="form-group">
+		    <label for="height" class="col-sm-2 control-label">Height</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="height" placeholder="Height" th:field="*{height}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="weight" class="col-sm-2 control-label">Weight</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="weight" placeholder="Weight" th:field="*{weight}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="complexion" class="col-sm-2 control-label">Complexion</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="complexion" placeholder="Complexion" th:field="*{complexion}" />
+		    </div>
+		  </div>		  
+		  <div class="form-group">
+		    <label for="manglik" class="col-sm-2 control-label">Manglik</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="manglik" placeholder="Manglik" th:field="*{manglik}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="education" class="col-sm-2 control-label">education</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="education" placeholder="education" th:field="*{education}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="educationDetails" class="col-sm-2 control-label">Education Details</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="educationDetails" placeholder="Education Details" th:field="*{educationDetails}" />
+		    </div>
+		  </div>		  
+
+		  <div class="form-group">
+		    <label for="boardUniversity" class="col-sm-2 control-label">Board/University</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="boardUniversity" placeholder="boardUniversity" th:field="*{boardUniversity}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="occupation" class="col-sm-2 control-label">occupation</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="occupation" placeholder="occupation" th:field="*{occupation}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="occupationDetails" class="col-sm-2 control-label">Occupation Details</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="occupationDetails" placeholder="occupationDetails" th:field="*{occupationDetails}" />
+		    </div>
+		  </div>	
+		  <div class="form-group">
+		    <label for="fullAddress" class="col-sm-2 control-label">FullAddress</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="fullAddress" placeholder="fullAddress" th:field="*{fullAddress}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="cityState" class="col-sm-2 control-label">CityState</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="cityState" placeholder="cityState" th:field="*{cityState}" />
+		    </div>
+		  </div>		  
+
+		  <div class="form-group">
+		    <label for="mobile1" class="col-sm-2 control-label">Mobile1</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="mobile1" placeholder="mobile1" th:field="*{mobile1}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="mobile2" class="col-sm-2 control-label">Mobile2</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="mobile2" placeholder="mobile2" th:field="*{mobile2}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="email" class="col-sm-2 control-label">Email</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="email" placeholder="email" th:field="*{email}" />
+		    </div>
+		  </div>	
+		  <div class="form-group">
+		    <label for="fatherOccupation" class="col-sm-2 control-label">Father's Occupation</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="fatherOccupation" placeholder="fatherOccupation" th:field="*{fatherOccupation}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="brothers" class="col-sm-2 control-label">Number of brothers</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="brothers" placeholder="brothers" th:field="*{brothers}" />
+		    </div>
+		  </div>		  
+
+		  <div class="form-group">
+		    <label for="marriedBrothers" class="col-sm-2 control-label">Number of Married Brothers</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="marriedBrothers" placeholder="marriedBrothers" th:field="*{marriedBrothers}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="sisters" class="col-sm-2 control-label">Sisters</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="sisters" placeholder="sisters" th:field="*{sisters}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="marriedSisters" class="col-sm-2 control-label">Number of Married Sisters</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="marriedSisters" placeholder="marriedSisters" th:field="*{marriedSisters}" />
+		    </div>
+		  </div>		
+		  <div class="form-group">
+		    <label for="vansh" class="col-sm-2 control-label">Vansh</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="vansh" placeholder="vansh" th:field="*{vansh}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="gotra" class="col-sm-2 control-label">Gotra</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="gotra" placeholder="gotra" th:field="*{gotra}" />
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="requirement" class="col-sm-2 control-label">Requirement</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="requirement" placeholder="requirement" th:field="*{requirement}" />
+		    </div>
+		  </div>			  	  		  
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-10">
+		      <button type="submit" class="btn btn-primary" id="btnAddUser">Add</button>
+		    </div>
+		  </div>		  	  		  
+		</form>
+  </div>
+</div>
+<a href="/users/oracle">Paginated List using Oracle</a> 
+<br/>
+<a href="/users/mysql">Paginated List using MySQL</a>
+</div>
+
+<div class="col-md-6">
+
+<div class="panel panel-default" th:fragment="listUserData" id="listUserData">
+  <div class="panel-heading">
+    <h3 class="panel-title">List User Data</h3>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+		        <table class="table table-striped">
+		            <thead>
+		                <tr>
+		                    <th>Id</th>
+		                    <th>Name</th>
+		                    <th>Salary</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		                <tr th:each="user : ${userlist}">
+		                    <td th:text="${user.id}">Id</td>
+		                    <td th:text="${user.name}">Username</td>
+		                    <td th:text="${user.salary}">Name</td>
+		                </tr>
+		            </tbody>
+		        </table>
+		       </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+	
+
+	
+
+	
+	
+	
+			<!-- Modal for Add Users -->
+		<div class="modal fade" id="add-users-confirmation-modal"
+			tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content-cust">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h1 class="panel-title">Add User</h1>
+							<button type="button" class="close pull-right custom-panel-close"
+								data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="panel-body">
+
+							<form action="#" th:action="@{/admin/adduser}" th:object="${userModel}" method="post" id="addUserForm">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-4">
+											<label for="inputFirstName">First Name</label> <input
+												type="text" class="form-control" id="inputId"
+												placeholder="First Name" th:field="*{id}" />
+										</div>
+										<div class="col-sm-4">
+											<label for="inputFirstName">Middle Name</label> <input
+												type="text" class="form-control" id="inputName"
+												placeholder="First Name" th:field="*{name}" />
+										</div>
+										<div class="col-sm-4">
+											<label for="inputFirstName">Last Name</label> <input
+												type="text" class="form-control" id="inputSalary"
+												placeholder="First Name" th:field="*{salary}" />
+										</div>
+									</div>
+
+								</div>
+
+							
+							</form>
+							The user will be added with <mark>username as email and a random password is generated.</mark>
+						</div>
+						<div class="panel-footer clearfix">
+							<div class="pull-right">
+					 			<button type="button" class="btn btn-default" id="btnCancelAddUsers" data-dismiss="modal">Cancel</button>
+					 			<button type="button" class="btn btn-primary" id="btnYesAddUsers" data-dismiss="modal">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</div>
+</body>
+</html>
