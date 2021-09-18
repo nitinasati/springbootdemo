@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.asatisamaj.matrimony.pagination.PaginationCriteria;
-import com.google.gson.Gson;
 
 /**
  * The Class AppUtil.
@@ -48,16 +47,7 @@ public class AppUtil {
 		return false;
 	}
 	
-	/**
-	 * Gets the bean to json string.
-	 *
-	 * @param beanClass the bean class
-	 * @return the bean to json string
-	 */
-	public static String getBeanToJsonString(Object beanClass) {
-		return new Gson().toJson(beanClass);
-	}
-	
+
 	/**
 	 * Gets the bean to json string.
 	 *

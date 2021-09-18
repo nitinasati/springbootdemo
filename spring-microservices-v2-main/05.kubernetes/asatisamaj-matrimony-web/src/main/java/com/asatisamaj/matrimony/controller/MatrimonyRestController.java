@@ -1,5 +1,6 @@
 package com.asatisamaj.matrimony.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,9 @@ import com.asatisamaj.matrimony.domain.DropDown;
 import com.asatisamaj.matrimony.domain.DropDownValues;
 import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
 import com.asatisamaj.matrimony.domain.MembersDetail;
+import com.asatisamaj.matrimony.domain.ResponseJSON;
 import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
+import com.asatisamaj.matrimony.service.GenericService;
 import com.asatisamaj.matrimony.utils.GenericSpecification;
 
 @RestController
@@ -29,6 +32,9 @@ public class MatrimonyRestController {
 
 	@Autowired
 	private MemberDetailsRepository memberRepository;
+
+	@Autowired
+	private GenericService genericService;
 
 	@PostMapping("/matrimony/rest/api/getmemberdetails")
 	public ResponseEntity<Map<String, Object>> getMemberListByFilterPage(
@@ -64,6 +70,12 @@ public class MatrimonyRestController {
 			e.printStackTrace();
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	@GetMapping(value = "/matrimony/rest/api/gettodo")
+	public ResponseEntity<Object> getToDo() throws IOException {
+		return genericService.restAPICall();
+
 	}
 
 	@GetMapping(value = "/matrimony/rest/api/getdropdownsamajarea")
@@ -107,6 +119,7 @@ public class MatrimonyRestController {
 		response.put("educationDetailsDropDown", dropDownValues);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
 	@GetMapping(value = "/matrimony/rest/api/getdropdownoccupation")
 	public ResponseEntity<Map<String, Object>> listDropDownOccupation() {
 		Map<String, Object> response = new HashMap<>();
@@ -120,6 +133,7 @@ public class MatrimonyRestController {
 		response.put("occupationDropDown", dropDownValues);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
 	@GetMapping(value = "/matrimony/rest/api/getdropdownagerange")
 	public ResponseEntity<Map<String, Object>> listDropDownAgeRange() {
 		Map<String, Object> response = new HashMap<>();

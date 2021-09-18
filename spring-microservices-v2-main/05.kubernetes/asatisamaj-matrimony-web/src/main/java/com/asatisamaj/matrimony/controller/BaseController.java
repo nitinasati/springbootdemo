@@ -4,12 +4,10 @@
 package com.asatisamaj.matrimony.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,23 +24,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
 import com.asatisamaj.matrimony.domain.MembersDetail;
+import com.asatisamaj.matrimony.domain.MembersDetailDTO;
 import com.asatisamaj.matrimony.domain.SearchCriteria;
-import com.asatisamaj.matrimony.domain.User;
-import com.asatisamaj.matrimony.domain.UserModel;
 import com.asatisamaj.matrimony.pagination.DataTableRequest;
-import com.asatisamaj.matrimony.pagination.DataTableResults;
 import com.asatisamaj.matrimony.pagination.PaginationCriteria;
-import com.asatisamaj.matrimony.reposoitory.GenericRepo;
 import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
-import com.asatisamaj.matrimony.reposoitory.UserRepository;
-import com.asatisamaj.matrimony.utils.AppUtil;
 import com.asatisamaj.matrimony.utils.GenericSpecification;
 import com.asatisamaj.matrimony.utils.SearchOperation;
-import com.google.gson.Gson;
 
 /**
  * @author pavan.solapure
@@ -52,49 +47,45 @@ import com.google.gson.Gson;
 public class BaseController {
 
 	@Autowired
-	private UserRepository userRepo;
-
-	@Autowired
 	private MemberDetailsRepository memberRepository;
 
 	/** The entity manager. */
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@GetMapping(value = "/users/mysql")
+
+	
+	@GetMapping(value = "/")
+	public String homePage(@RequestParam(value = "name", defaultValue = "World") String name) {
+		return "index";
+	}
+	@GetMapping(value = "/listmembers")
 	public String listUsers(Model model) {
-		return "users_mysql";
+		return "list_members";
 	}
 
-	@GetMapping(value = "/users/paginated/mysql")
-	@ResponseBody
-	public String listUsersPaginated(HttpServletRequest request, HttpServletResponse response, Model model) {
+	@GetMapping(value = "/addmember")
+	public ModelAndView home(@RequestParam(value = "name", defaultValue = "World") String name) {
+		ModelAndView mv = new ModelAndView("index");
+		MembersDetailDTO membersDetailDTO = new MembersDetailDTO();
+		mv.addObject("membersDetailDTO", membersDetailDTO);
+		mv.setViewName("addmember");
+		return mv;
+	}
 
-		DataTableRequest<User> dataTableInRQ = new DataTableRequest<>(request);
-		PaginationCriteria pagination = dataTableInRQ.getPaginationRequest();
+	@GetMapping(value = "/error")
+	public String showError(@RequestParam(value = "name", defaultValue = "World") String name) {
+		return "error";
+	}
+	
+	@PostMapping(value = "/savemember")
+	public String addMember(@ModelAttribute MembersDetailDTO membersDetailDTO, Model model) {
+		
+		System.out.print("I am here");
+		if (null != membersDetailDTO) {
 
-		String baseQuery = "SELECT USER_ID as id, USER_NAME as name, SALARY as salary, (SELECT COUNT(1) FROM MYUSERS) AS total_records  FROM MYUSERS";
-		String paginatedQuery = AppUtil.buildPaginatedQuery(baseQuery, pagination);
-
-		System.out.println(paginatedQuery);
-
-		Query query = entityManager.createNativeQuery(paginatedQuery, UserModel.class);
-
-		@SuppressWarnings("unchecked")
-		List<UserModel> userList = query.getResultList();
-
-		DataTableResults<UserModel> dataTableResult = new DataTableResults<UserModel>();
-		dataTableResult.setDraw(dataTableInRQ.getDraw());
-		dataTableResult.setListOfDataObjects(userList);
-		if (!AppUtil.isObjectEmpty(userList)) {
-			dataTableResult.setRecordsTotal(userList.get(0).getTotalRecords().toString());
-			if (dataTableInRQ.getPaginationRequest().isFilterByEmpty()) {
-				dataTableResult.setRecordsFiltered(userList.get(0).getTotalRecords().toString());
-			} else {
-				dataTableResult.setRecordsFiltered(Integer.toString(userList.size()));
-			}
 		}
-		return new Gson().toJson(dataTableResult);
+		return "redirect:/listmembers";
 	}
 
 	@PostMapping(value = "/users/paginated/getmemberlist")
@@ -136,75 +127,6 @@ public class BaseController {
 			e.printStackTrace();
 			return new ResponseEntity<>(responseReturn, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
-
-	@GetMapping(value = "/users/oracle")
-	public String listUsersOracle(Model model) {
-		return "users";
-	}
-
-	@GetMapping(value = "/users/paginated/orcl")
-	@ResponseBody
-	public String listUsersPaginatedForOracle(HttpServletRequest request, HttpServletResponse response, Model model) {
-
-		DataTableRequest<User> dataTableInRQ = new DataTableRequest<User>(request);
-		PaginationCriteria pagination = dataTableInRQ.getPaginationRequest();
-		String baseQuery = "SELECT USER_ID as id, USER_NAME as name, SALARY as salary  FROM MYUSERS";
-		String paginatedQuery = AppUtil.buildPaginatedQueryForOracle(baseQuery, pagination);
-
-		System.out.println(paginatedQuery);
-
-		Query query = entityManager.createNativeQuery(paginatedQuery, UserModel.class);
-
-		@SuppressWarnings("unchecked")
-		List<UserModel> userList = query.getResultList();
-
-		DataTableResults<UserModel> dataTableResult = new DataTableResults<UserModel>();
-		dataTableResult.setDraw(dataTableInRQ.getDraw());
-		dataTableResult.setListOfDataObjects(userList);
-		if (!AppUtil.isObjectEmpty(userList)) {
-			dataTableResult.setRecordsTotal(userList.get(0).getTotalRecords().toString());
-			if (dataTableInRQ.getPaginationRequest().isFilterByEmpty()) {
-				dataTableResult.setRecordsFiltered(userList.get(0).getTotalRecords().toString());
-			} else {
-				dataTableResult.setRecordsFiltered(Integer.toString(userList.size()));
-			}
-		}
-		return new Gson().toJson(dataTableResult);
-	}
-
-	@PostMapping(value = "/adduser")
-	public String addUser(@ModelAttribute UserModel userModel, Model model) {
-		if (null != userModel) {
-
-			if (!AppUtil.isObjectEmpty(userModel.getId()) && !AppUtil.isObjectEmpty(userModel.getName())
-					&& !AppUtil.isObjectEmpty(userModel.getSalary())) {
-
-				User u = new User();
-				u.setId(userModel.getId());
-				u.setName(userModel.getName());
-				u.setSalary(userModel.getSalary());
-				userRepo.save(u);
-			}
-		}
-		return "redirect:/";
-	}
-
-	@PostMapping(value = "/addmember")
-	public String addMember(@ModelAttribute UserModel userModel, Model model) {
-		if (null != userModel) {
-
-			if (!AppUtil.isObjectEmpty(userModel.getId()) && !AppUtil.isObjectEmpty(userModel.getName())
-					&& !AppUtil.isObjectEmpty(userModel.getSalary())) {
-
-				User u = new User();
-				u.setId(userModel.getId());
-				u.setName(userModel.getName());
-				u.setSalary(userModel.getSalary());
-				userRepo.save(u);
-			}
-		}
-		return "redirect:/";
 	}
 
 	/**

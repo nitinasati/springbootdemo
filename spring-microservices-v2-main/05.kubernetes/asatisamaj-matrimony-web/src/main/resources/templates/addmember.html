@@ -1,0 +1,229 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Add New Member</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+<link
+	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
+	rel="stylesheet" />
+<link
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
+	rel="stylesheet" />
+
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+<script
+	src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js"></script>
+<script type="text/javascript" th:src="@{../js/dropdownvalues.js}"></script>
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-default" th:fragment="addUserData">
+					<div class="panel-heading">
+						<h3 class="panel-title">Add New Member</h3>
+					</div>
+					<div class="panel-body">
+						<form action="#" th:action="@{/savemember}"
+							th:object="${membersDetailDTO}" method="post"
+							class="form-horizontal" id="addUserForm">
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="fullName"
+										placeholder="Full Name" th:field="*{fullName}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="fatherName"
+										placeholder="Father's Name" th:field="*{fatherName}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="motherName"
+										placeholder="Mother's Name" th:field="*{motherName}" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="grandFather"
+										placeholder="Grandfather's Name" th:field="*{grandFather}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select class="form-control" id="samajArea"
+										th:field="*{samajArea}"></select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select class="form-control" id="gender" th:field="*{gender}">
+										<option value=''>--Gender--</option>
+										<option value='male'>Male</option>
+										<option value='female'>Female</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="birthDate"
+										placeholder="Date of Birth" th:field="*{birthDate}" readonly />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="height"
+										placeholder="Height" th:field="*{height}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select class="form-control" id="manglik" th:field="*{manglik}">
+										<option value=''>--Manglik--</option>
+										<option value='male'>Yes</option>
+										<option value='female'>No</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select id='education' class="form-control"
+										th:field="*{education}"></select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select id='educationDetails' class="form-control"
+										th:field="*{educationDetails}"></select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="boardUniversity"
+										placeholder="Board/University" th:field="*{boardUniversity}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="occupation"
+										placeholder="Occupation" th:field="*{occupation}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="occupationDetails"
+										placeholder="Occupation Details"
+										th:field="*{occupationDetails}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="fullAddress"
+										placeholder="Full Address" th:field="*{fullAddress}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select class="form-control" id="country" th:field="*{country}">
+										<option value="">Select Country</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select class="form-control" id="state" th:field="*{state}">
+										<option value="">Select State</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select class="form-control" id="cityState"
+										th:field="*{cityState}">
+										<option value="">Select City</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="mobile1"
+										placeholder="Mobile1" th:field="*{mobile1}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="mobile2"
+										placeholder="Mobile2" th:field="*{mobile2}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="email"
+										placeholder="Email" th:field="*{email}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="fatherOccupation"
+										placeholder="Father's Occupation"
+										th:field="*{fatherOccupation}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="gotra"
+										placeholder="Gotra" th:field="*{gotra}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="comments"
+										placeholder="Additional Details" th:field="*{comments}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary" id="btnAddUser">Add
+										Member</button>
+								</div>
+							</div>
+						</form>
+						<a href="/listmembers">List Existing Members</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(function() {
+			$("#birthDate").datepicker({
+				changeMonth : true,
+				changeYear : true,
+				yearRange : "-50:-18"
+			});
+		});
+	</script>
+</body>
+</html>
