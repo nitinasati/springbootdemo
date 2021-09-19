@@ -3,7 +3,7 @@ $(document).ready(function() {
 		"processing": true,
 		"serverSide": true,
 		"responsive": true,
-		"pageLength": 20,
+		"pageLength": 25,
 		"scrollY": 600, 
 		"order": [[0, "desc"]],
 		"dom": '<"top"lB>rt<"clear"><"bottom"ipB>',
