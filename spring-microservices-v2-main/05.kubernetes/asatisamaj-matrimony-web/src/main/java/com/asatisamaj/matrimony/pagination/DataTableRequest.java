@@ -251,7 +251,7 @@ public class DataTableRequest<T> {
 			this.setSearchBySamajArea(request.getParameter("searchBySamajArea"));
 			this.setSearchByMemberId(request.getParameter("searchByMemberId"));
 			this.setSearchByEducation(request.getParameter("searchByEducation"));
-			this.setSearchByEducationDetails(request.getParameter("searchByEducatonDetails"));
+			this.setSearchByEducationDetails(request.getParameter("searchByEducationDetails"));
 			this.setSearchByOccupation(request.getParameter("searchByOccupation"));
 			this.setSearchByAgeRange(request.getParameter("searchByAgeRange"));
 			this.setSearch(request.getParameter("search[value]"));

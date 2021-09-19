@@ -48,7 +48,7 @@ public class PaginationCriteria {
 	 * @return the pageSize
 	 */
 	public Integer getPageSize() {
-		return (null == pageSize) ? 10 : pageSize;
+		return (null == pageSize) ? 20 : pageSize;
 	}
 
 	/**

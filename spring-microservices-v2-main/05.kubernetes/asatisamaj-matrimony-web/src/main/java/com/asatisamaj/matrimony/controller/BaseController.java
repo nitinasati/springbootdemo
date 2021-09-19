@@ -97,7 +97,6 @@ public class BaseController {
 			PaginationCriteria pagination = dataTableInRQ.getPaginationRequest();
 
 			MatrimonySearchCriteria matrimonySearchCriteria = new MatrimonySearchCriteria();
-
 			matrimonySearchCriteria.setSortColumn(pagination.getOrderByColumn());
 			matrimonySearchCriteria.setSortDirection(pagination.getOrderByDirection());
 			matrimonySearchCriteria.setPage(pagination.getPageNumber() / pagination.getPageSize());
@@ -171,7 +170,7 @@ public class BaseController {
 		}
 		if (null != dataTableInRQ.getSearchByOccupation() && !dataTableInRQ.getSearchByOccupation().isBlank()) {
 			genericSpecification.add(
-					new SearchCriteria("occupation", dataTableInRQ.getSearchByOccupation(), SearchOperation.EQUAL));
+					new SearchCriteria("occupationDetails", dataTableInRQ.getSearchByOccupation(), SearchOperation.EQUAL));
 		}
 		if (null != dataTableInRQ.getSearchByAgeRange() && !dataTableInRQ.getSearchByAgeRange().isBlank()) {
 

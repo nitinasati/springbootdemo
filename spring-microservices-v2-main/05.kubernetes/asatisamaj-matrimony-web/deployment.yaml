@@ -23,7 +23,7 @@ spec:
         app: asatisamaj-matrimony-web
     spec:
       containers:
-      - image: nitinasati/asatisamaj-matrimony-web:1.0.0
+      - image: nitinasati/asatisamaj-matrimony-web:1.1.0
         imagePullPolicy: IfNotPresent
         name: asatisamaj-matrimony-web
         envFrom:
