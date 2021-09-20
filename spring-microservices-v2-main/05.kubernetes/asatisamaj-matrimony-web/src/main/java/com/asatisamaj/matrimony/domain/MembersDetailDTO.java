@@ -2,10 +2,16 @@ package com.asatisamaj.matrimony.domain;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class MembersDetailDTO {
 
+	private Long id;
 	private Long memberId;
 	private String samajArea;
+	@NotNull
+	@Size(min=2, max=30)
 	private String fullName;
 	private String fatherName;
 	private String motherName;
@@ -235,5 +241,11 @@ public class MembersDetailDTO {
 	}
 	public void setUpdateProgram(String updateProgram) {
 		this.updateProgram = updateProgram;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

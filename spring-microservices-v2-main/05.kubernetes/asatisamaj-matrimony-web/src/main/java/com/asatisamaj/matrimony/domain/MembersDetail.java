@@ -1,6 +1,6 @@
 package com.asatisamaj.matrimony.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -64,7 +64,7 @@ public class MembersDetail {
 			String updateUser, String updateProgram) {
 		super();
 		this.id = id;
-		this.memberId = memberId;
+		this.memberId = id;
 		this.samajArea = samajArea;
 		this.fullName = fullName;
 		this.fatherName = fatherName;
@@ -100,8 +100,6 @@ public class MembersDetail {
 		this.updateProgram = updateProgram;
 	}
 
-
-
 	public Long getId() {
 		return id;
 	}
@@ -115,7 +113,7 @@ public class MembersDetail {
 	}
 
 	public void setMemberId(Long memberId) {
-		this.memberId = memberId;
+			this.memberId = memberId;
 	}
 
 	public String getSamajArea() {

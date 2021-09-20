@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Add New Member</title>
+<title>Add/Update Member</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
 <link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-	rel="stylesheet" media="screen" />
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous">
 <link
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
 	rel="stylesheet" />
@@ -23,13 +24,15 @@
 <script
 	src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+	crossorigin="anonymous"></script>
+
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
 <script
 	src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js"></script>
-<script type="text/javascript" th:src="@{~/js/dropdownvalues.js}"></script>
-
+<script type="text/javascript" th:src="@{~/js/addmember.js}"></script>
 </head>
 <body>
 	<div class="container">
@@ -37,41 +40,42 @@
 			<div class="col-md-6">
 				<div class="panel panel-default" th:fragment="addUserData">
 					<div class="panel-heading">
-						<h3 class="panel-title">Add New Member</h3>
+						<h3 class="panel-title">Add/Update Member</h3>
 					</div>
 					<div class="panel-body">
-						<form action="#" th:action="@{/savemember}"
-							th:object="${membersDetailDTO}" method="post"
-							class="form-horizontal" id="addUserForm">
+						<form action="#" th:action="@{/addupdatemember}"
+							th:object="${membersDetailDTO}" method="post" class="row g-3"
+							id="addUserForm">
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="fullName"
-										placeholder="Full Name" th:field="*{fullName}" />
+										placeholder="Full Name" th:field="*{fullName}" required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="fatherName"
-										placeholder="Father's Name" th:field="*{fatherName}" />
+										placeholder="Father's Name" th:field="*{fatherName}" required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="motherName"
-										placeholder="Mother's Name" th:field="*{motherName}" />
+										placeholder="Mother's Name" th:field="*{motherName}" required />
 								</div>
 							</div>
 
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="grandFather"
-										placeholder="Grandfather's Name" th:field="*{grandFather}" />
+										placeholder="Grandfather's Name" th:field="*{grandFather}"
+										required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<select class="form-control" id="samajArea"
-										th:field="*{samajArea}"></select>
+										th:field="*{samajArea}" required></select>
 								</div>
 							</div>
 							<div class="form-group">
@@ -86,19 +90,21 @@
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="birthDate"
-										placeholder="Date of Birth" th:field="*{birthDate}" readonly />
+										placeholder="Date of Birth" th:field="*{birthDate}" readonly
+										required />
 								</div>
 							</div>
 
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="height"
-										placeholder="Height" th:field="*{height}" />
+										placeholder="Height" th:field="*{height}" required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
-									<select class="form-control" id="manglik" th:field="*{manglik}">
+									<select class="form-control" id="manglik" th:field="*{manglik}"
+										required>
 										<option value=''>--Manglik--</option>
 										<option value='male'>Yes</option>
 										<option value='female'>No</option>
@@ -108,67 +114,61 @@
 							<div class="form-group">
 								<div class="col-sm-10">
 									<select id='education' class="form-control"
-										th:field="*{education}"></select>
+										th:field="*{education}" required></select>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<select id='educationDetails' class="form-control"
-										th:field="*{educationDetails}"></select>
+										th:field="*{educationDetails}" required></select>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="boardUniversity"
-										placeholder="Board/University" th:field="*{boardUniversity}" />
+										placeholder="Board/University" th:field="*{boardUniversity}"
+										required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="occupation"
-										placeholder="Occupation" th:field="*{occupation}" />
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="occupationDetails"
-										placeholder="Occupation Details"
-										th:field="*{occupationDetails}" />
+									<select class="form-control" id="occupation"
+										th:field="*{occupation}" required></select>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="fullAddress"
-										placeholder="Full Address" th:field="*{fullAddress}" />
+										placeholder="Full Address" th:field="*{fullAddress}" required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<select class="form-control" id="country" th:field="*{country}">
-										<option value="">Select Country</option>
+										<option value="">--Select Country--</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
-									<select class="form-control" id="state" th:field="*{state}">
-										<option value="">Select State</option>
+									<select class="form-control" id="state" th:field="*{state}"
+										required>
+										<option value="">--Select State--</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
-									<select class="form-control" id="cityState"
-										th:field="*{cityState}">
-										<option value="">Select City</option>
+									<select class="form-control" id="cityState"	th:field="*{cityState}" required>
+										<option value="">--Select City--</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="mobile1"
-										placeholder="Mobile1" th:field="*{mobile1}" />
+										placeholder="Mobile1" th:field="*{mobile1}" required />
 								</div>
 							</div>
 							<div class="form-group">
@@ -180,20 +180,20 @@
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="email"
-										placeholder="Email" th:field="*{email}" />
+										placeholder="Email" th:field="*{email}" required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="fatherOccupation"
 										placeholder="Father's Occupation"
-										th:field="*{fatherOccupation}" />
+										th:field="*{fatherOccupation}" required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="gotra"
-										placeholder="Gotra" th:field="*{gotra}" />
+										placeholder="Gotra" th:field="*{gotra}" required />
 								</div>
 							</div>
 							<div class="form-group">
@@ -204,8 +204,19 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-primary" id="btnAddUser">Add
-										Member</button>
+									<button type="submit" class="btn btn-primary" id="btnAddUser">Submit</button>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="hidden" class="form-control" id="memberId"
+										placeholder="Mother's Name" th:field="*{memberId}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<input type="hidden" class="form-control" id="id"
+										th:field="*{id}" required />
 								</div>
 							</div>
 						</form>
@@ -215,7 +226,23 @@
 			</div>
 		</div>
 	</div>
+<script th:inline="javascript">
+/*<![CDATA[*/
 
+		var jsGender = /*[[${membersDetailDTO.gender}]]*/null;
+		var jsCountry = /*[[${membersDetailDTO.country}]]*/null;
+		var jsState = /*[[${membersDetailDTO.state}]]*/null;
+		var jsCity = /*[[${membersDetailDTO.cityState}]]*/null;
+		var jsOccupation = /*[[${membersDetailDTO.occupation}]]*/null;
+		var jsOccupationDetails = /*[[${membersDetailDTO.occupationDetails}]]*/null;
+		var jsEducation = /*[[${membersDetailDTO.education}]]*/null;
+		var jsEducationDetails = /*[[${membersDetailDTO.educationDetails}]]*/null;
+		var jsSamajArea = /*[[${membersDetailDTO.samajArea}]]*/null;
+		var jsManglik = /*[[${membersDetailDTO.manglik}]]*/null;
+		var jsBirthDate = /*[[${membersDetailDTO.birthDate}]]*/null;
+
+/*]]>*/
+</script>
 	<script>
 		$(function() {
 			$("#birthDate").datepicker({

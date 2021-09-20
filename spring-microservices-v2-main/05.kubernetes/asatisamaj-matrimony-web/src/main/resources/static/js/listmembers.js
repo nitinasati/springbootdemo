@@ -4,7 +4,7 @@ $(document).ready(function() {
 		"serverSide": true,
 		"responsive": true,
 		"pageLength": 25,
-		"scrollY": 600, 
+		"scrollY": 600,
 		"order": [[0, "desc"]],
 		"dom": '<"top"lB>rt<"clear"><"bottom"ipB>',
 		"pagingType": "simple_numbers",
@@ -24,8 +24,15 @@ $(document).ready(function() {
 			}
 		},
 		"columns": [
-			{ "data": "memberId", "name": "memberId", "title": "Member ID", "className": "dt-body-left" },
-			{ "data": "fullName", "name": "fullName", "title": "Full Name", "className": "dt-body-left" },
+			{
+				"data": "memberId", "name": "memberId", "title": "Member ID", "className": "dt-body-left"
+			},
+			{
+				"data": "fullName", "name": "fullName", "title": "Full Name", "className": "dt-body-left", "render": function(data, type, row, meta) {
+					var idp = row['memberId'];
+					return '<a href="/addupdatemember?memberId=' + idp + '">' + data + '</a>';
+				}
+			},
 			{ "data": "age", "name": "age", "title": "Age", "className": "dt-body-center" },
 			{ "data": "fatherName", "name": "fatherName", "title": "Father's Name", "className": "dt-body-left" },
 			{

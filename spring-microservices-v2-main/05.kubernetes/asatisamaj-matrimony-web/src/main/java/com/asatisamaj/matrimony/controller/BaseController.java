@@ -3,6 +3,7 @@
  */
 package com.asatisamaj.matrimony.controller;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,11 +26,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,6 +50,8 @@ import com.asatisamaj.matrimony.utils.SearchOperation;
 @Controller
 public class BaseController {
 
+	private static final Logger LOGGER = LogManager.getLogger(BaseController.class);
+
 	@Autowired
 	private MemberDetailsRepository memberRepository;
 
@@ -53,21 +59,32 @@ public class BaseController {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-
-	
 	@GetMapping(value = "/")
 	public String homePage(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return "index";
 	}
+
 	@GetMapping(value = "/listmembers")
 	public String listUsers(Model model) {
 		return "list_members";
 	}
 
-	@GetMapping(value = "/addmember")
-	public ModelAndView home(@RequestParam(value = "name", defaultValue = "World") String name) {
+	@GetMapping(value = "/addupdatemember")
+	public ModelAndView addMember(@RequestParam(value = "memberId", defaultValue = "NOTPROVIDED") String reqMemberId) {
 		ModelAndView mv = new ModelAndView("index");
 		MembersDetailDTO membersDetailDTO = new MembersDetailDTO();
+		if (!reqMemberId.equalsIgnoreCase("NOTPROVIDED")) {
+
+			GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
+			genericSpecification
+					.add(new SearchCriteria("memberId", Long.parseLong(reqMemberId), SearchOperation.EQUAL));
+
+			Pageable paging = PageRequest.of(0, 1, Sort.by(Direction.ASC, "memberId"));
+			Page<MembersDetail> pageTuts;
+			pageTuts = memberRepository.findAll(genericSpecification, paging);
+			if (!pageTuts.getContent().isEmpty())
+				BeanUtils.copyProperties(pageTuts.getContent().get(0), membersDetailDTO);
+		}
 		mv.addObject("membersDetailDTO", membersDetailDTO);
 		mv.setViewName("addmember");
 		return mv;
@@ -77,15 +94,25 @@ public class BaseController {
 	public String showError(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return "error";
 	}
-	
-	@PostMapping(value = "/savemember")
-	public String addMember(@ModelAttribute MembersDetailDTO membersDetailDTO, Model model) {
-		
-		System.out.print("I am here");
-		if (null != membersDetailDTO) {
 
+	@PostMapping(value = "/addupdatemember")
+	public ModelAndView addMember(@Valid @ModelAttribute MembersDetailDTO membersDetailDTO, Model model,
+			BindingResult bindingResult) {
+		ModelAndView mv = new ModelAndView("index");
+		MembersDetail membersDetail = new MembersDetail();
+		if (!bindingResult.hasErrors()) {
+
+			setAdditionalFields(membersDetailDTO);
+
+			BeanUtils.copyProperties(membersDetailDTO, membersDetail);
+			memberRepository.save(membersDetail);
+
+			mv.addObject("membersDetailDTO", membersDetailDTO);
+			mv.setViewName("list_members");
+			return mv;
 		}
-		return "redirect:/listmembers";
+		mv.setViewName("addmember");
+		return mv;
 	}
 
 	@PostMapping(value = "/users/paginated/getmemberlist")
@@ -169,8 +196,8 @@ public class BaseController {
 					SearchOperation.EQUAL));
 		}
 		if (null != dataTableInRQ.getSearchByOccupation() && !dataTableInRQ.getSearchByOccupation().isBlank()) {
-			genericSpecification.add(
-					new SearchCriteria("occupationDetails", dataTableInRQ.getSearchByOccupation(), SearchOperation.EQUAL));
+			genericSpecification.add(new SearchCriteria("occupationDetails", dataTableInRQ.getSearchByOccupation(),
+					SearchOperation.EQUAL));
 		}
 		if (null != dataTableInRQ.getSearchByAgeRange() && !dataTableInRQ.getSearchByAgeRange().isBlank()) {
 
@@ -189,6 +216,24 @@ public class BaseController {
 			} else if (dataTableInRQ.getSearchByAgeRange().equalsIgnoreCase("40+ Years")) {
 				genericSpecification.add(new SearchCriteria("age", 40, SearchOperation.GREATER_THAN));
 			}
+		}
+	}
+
+	private void setAdditionalFields(@Valid MembersDetailDTO membersDetailDTO) {
+
+		long millis = System.currentTimeMillis();
+
+		if (null != membersDetailDTO.getMemberId()) // update check
+		{
+			membersDetailDTO.setUpdateDate(new Date(millis));
+			membersDetailDTO.setUpdateProgram("website-update");
+			membersDetailDTO.setUpdateUser("update");
+		} else {
+
+			membersDetailDTO.setInsertDate(new Date(millis));
+			membersDetailDTO.setInsertProgram("website-insert");
+			membersDetailDTO.setInsertUser("insert");
+			membersDetailDTO.setMemberId(memberRepository.findMaxMemberId() + 1);
 		}
 	}
 }

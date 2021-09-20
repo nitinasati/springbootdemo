@@ -27,65 +27,65 @@
 <script type="text/javascript" th:src="@{~/js/dropdownvalues.js}"></script>
 </head>
 <body>
+
+	<h3><a href="/">Home</a></h3>
+	<h3><a href="/addupdatemember">Add New Member</a></h3>
+
 	<div class="container">
-
-		<div class="starter-template">
-
-			<!-- Custom Filter -->
-			<div class="table-responsive">
-				<table class="display" style="width: 100%">
-					<tr>
-						<td><input type='text' id='searchByMemberId'
-							placeholder='member id' /> <select id='samajArea'></select>
-							<select id='gender'>
-								<option value=''>--Gender--</option>
-								<option value='male'>Male</option>
-								<option value='female'>Female</option>
-						</select> <select id='searchByAgeRange'></select> <select id='education'></select>
-							<select id='educationDetails'></select> <select
-							id='occupation'></select>
-							<button type="button" id='searchBtn'>Search</button>
-							<button id="btn-show-all-doc">Expand / Collapse</button></td>
-					</tr>
-				</table>
-			</div>
-			<table id="paginatedTable" class="display nowrap" style="width: 100%">
-				<thead>
-					<tr>
-						<th>memberId</th>
-						<th>fullName</th>
-						<th>age</th>
-						<th>fatherName</th>
-						<th>birthDate</th>
-						<th>mobile1</th>
-						<th>educationDetails</th>
-						<th>occupation</th>
-						<th>fullAddress</th>
-						<th>cityState</th>
-						<th>state</th>
-						<th>country</th>
-						<th>samajArea</th>
-						<th>motherName</th>
-						<th>grandFather</th>
-						<th>gender</th>
-						<th>height</th>
-						<th>gotra</th>
-						<th>manglik</th>
-						<th>mobile2</th>
-						<th>education</th>
-						<th>boardUniversity</th>
-						<th>occupationDetails</th>
-						<th>fatherOccupation</th>
-						<th>email</th>
-						<th>comments</th>
-					</tr>
-				</thead>
+		<!-- Custom Filter -->
+		<div class="table-responsive">
+			<table class="display" style="width: 100%">
+				<tr>
+					<td><input type='text' id='searchByMemberId'
+						placeholder='member id' /> <select id='samajArea'></select> <select
+						id='gender'>
+							<option value=''>--Gender--</option>
+							<option value='male'>Male</option>
+							<option value='female'>Female</option>
+					</select> <select id='searchByAgeRange'></select> <select id='education'></select>
+						<select id='educationDetails'></select> <select id='occupation'></select>
+						<button type="button" id='searchBtn'>Search</button>
+						<button id="btn-show-all-doc">Expand / Collapse</button></td>
+				</tr>
 			</table>
 		</div>
-
-
-
+		<table id="paginatedTable" class="display nowrap" style="width: 100%">
+			<thead>
+				<tr>
+					<th>memberId</th>
+					<th>fullName</th>
+					<th>age</th>
+					<th>fatherName</th>
+					<th>birthDate</th>
+					<th>mobile1</th>
+					<th>educationDetails</th>
+					<th>occupation</th>
+					<th>fullAddress</th>
+					<th>cityState</th>
+					<th>state</th>
+					<th>country</th>
+					<th>samajArea</th>
+					<th>motherName</th>
+					<th>grandFather</th>
+					<th>gender</th>
+					<th>height</th>
+					<th>gotra</th>
+					<th>manglik</th>
+					<th>mobile2</th>
+					<th>education</th>
+					<th>boardUniversity</th>
+					<th>occupationDetails</th>
+					<th>fatherOccupation</th>
+					<th>email</th>
+					<th>comments</th>
+				</tr>
+			</thead>
+		</table>
 	</div>
+
+
+
+
 	<!-- /.container -->
 
 </body>

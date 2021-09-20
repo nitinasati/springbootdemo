@@ -22,7 +22,6 @@ $(document).ready(function() {
 			});
 		}
 	});
-
 	$.ajax({
 		type: "GET",
 		url: "/matrimony/rest/api/getdropdowneducationdetails",
@@ -59,57 +58,5 @@ $(document).ready(function() {
 		}
 	});
 
-	$.ajax({
-		type: "GET",
-		url: "https://countriesnow.space/api/v0.1/countries/info?returns=currency",
-		// Append to data
-		dataType: "json",
-		success: function(response) {
-			$.each(response.data, function(i, data) {
-				var div_data = "<option value='" + data.name + "'>" + data.name + "</option>";
-				$(div_data).appendTo('#country');
-			});
-		}
-	});
 
-	$('#country').change(function() {
-		$('#state option').remove();
-		var defaultDataState = "<option value=''>Select State</option>";
-		$(defaultDataState).appendTo('#state');
-		$('#cityState option').remove();
-		var defaultDataCity = "<option value=''>Select City</option>";
-		$(defaultDataCity).appendTo('#cityState');
-		$.ajax({
-			type: "POST",
-			url: "https://countriesnow.space/api/v0.1/countries/states",
-			// Append to data
-			data: { country: $('#country').val() },
-			dataType: "json",
-			success: function(response) {
-				$.each(response.data.states, function(i, data) {
-					var div_data = "<option value='" + data.name + "'>" + data.name + "</option>";
-					$(div_data).appendTo('#state');
-				});
-			}
-		});
-	});
-
-	$('#state').change(function() {
-		$('#cityState option').remove();
-		var defaultDataCity = "<option value=''>Select City</option>";
-		$(defaultDataCity).appendTo('#cityState');
-		$.ajax({
-			type: "POST",
-			url: "https://countriesnow.space/api/v0.1/countries/state/cities",
-			// Append to data
-			data: { country: $('#country').val(), state: $('#state').val() },
-			dataType: "json",
-			success: function(response) {
-				$.each(response.data, function(i, data) {
-					var div_data = "<option value='" + data + "'>" + data + "</option>";
-					$(div_data).appendTo('#cityState');
-				});
-			}
-		});
-	});
 });
