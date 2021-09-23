@@ -72,23 +72,13 @@ public class BaseController {
 	@GetMapping(value = "/addupdatemember")
 	public ModelAndView addMember(@RequestParam(value = "memberId", defaultValue = "NOTPROVIDED") String reqMemberId) {
 		ModelAndView mv = new ModelAndView("index");
-		MembersDetailDTO membersDetailDTO = new MembersDetailDTO();
-		if (!reqMemberId.equalsIgnoreCase("NOTPROVIDED")) {
-
-			GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
-			genericSpecification
-					.add(new SearchCriteria("memberId", Long.parseLong(reqMemberId), SearchOperation.EQUAL));
-
-			Pageable paging = PageRequest.of(0, 1, Sort.by(Direction.ASC, "memberId"));
-			Page<MembersDetail> pageTuts;
-			pageTuts = memberRepository.findAll(genericSpecification, paging);
-			if (!pageTuts.getContent().isEmpty())
-				BeanUtils.copyProperties(pageTuts.getContent().get(0), membersDetailDTO);
-		}
+		MembersDetailDTO membersDetailDTO = getMembersDetail(reqMemberId);
 		mv.addObject("membersDetailDTO", membersDetailDTO);
 		mv.setViewName("addmember");
 		return mv;
 	}
+
+
 
 	@GetMapping(value = "/error")
 	public String showError(@RequestParam(value = "name", defaultValue = "World") String name) {
@@ -174,6 +164,8 @@ public class BaseController {
 			}
 		});
 
+		genericSpecification.add(new SearchCriteria("status", "Active", SearchOperation.EQUAL));
+
 		if (null != dataTableInRQ.getSearchByMemberId() && !dataTableInRQ.getSearchByMemberId().isBlank()) {
 			genericSpecification.add(new SearchCriteria("memberId", Long.parseLong(dataTableInRQ.getSearchByMemberId()),
 					SearchOperation.EQUAL));
@@ -222,12 +214,21 @@ public class BaseController {
 	private void setAdditionalFields(@Valid MembersDetailDTO membersDetailDTO) {
 
 		long millis = System.currentTimeMillis();
+		
+
+		if (null == membersDetailDTO.getStatus() || membersDetailDTO.getStatus().isBlank()) {
+			membersDetailDTO.setStatus("Pending");
+		}
 
 		if (null != membersDetailDTO.getMemberId()) // update check
 		{
+			MembersDetailDTO membersDetailTemp = getMembersDetail((membersDetailDTO.getMemberId().toString()));
 			membersDetailDTO.setUpdateDate(new Date(millis));
 			membersDetailDTO.setUpdateProgram("website-update");
 			membersDetailDTO.setUpdateUser("update");
+			membersDetailDTO.setInsertDate(membersDetailTemp.getInsertDate());
+			membersDetailDTO.setInsertProgram(membersDetailTemp.getInsertProgram());
+			membersDetailDTO.setInsertUser(membersDetailTemp.getInsertUser());
 		} else {
 
 			membersDetailDTO.setInsertDate(new Date(millis));
@@ -235,5 +236,25 @@ public class BaseController {
 			membersDetailDTO.setInsertUser("insert");
 			membersDetailDTO.setMemberId(memberRepository.findMaxMemberId() + 1);
 		}
+	}
+	/**
+	 * @param reqMemberId
+	 * @param membersDetailDTO
+	 */
+	private MembersDetailDTO getMembersDetail(String reqMemberId) {
+		MembersDetailDTO membersDetail = new MembersDetailDTO();
+		if (!reqMemberId.equalsIgnoreCase("NOTPROVIDED")) {
+
+			GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
+			genericSpecification
+					.add(new SearchCriteria("memberId", Long.parseLong(reqMemberId), SearchOperation.EQUAL));
+			genericSpecification.add(new SearchCriteria("status", "Active", SearchOperation.EQUAL));
+			Pageable paging = PageRequest.of(0, 1, Sort.by(Direction.ASC, "memberId"));
+			Page<MembersDetail> pageTuts;
+			pageTuts = memberRepository.findAll(genericSpecification, paging);
+			if (!pageTuts.getContent().isEmpty())
+				BeanUtils.copyProperties(pageTuts.getContent().get(0), membersDetail);
+		}
+		return membersDetail;
 	}
 }
