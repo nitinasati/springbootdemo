@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.asatisamaj.matrimony.domain.MatrimonyResponse;
 import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
-import com.asatisamaj.matrimony.domain.MembersDetail;
+import com.asatisamaj.matrimony.entities.MembersDetail;
 import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
 import com.asatisamaj.matrimony.utils.GenericSpecification;
 
@@ -36,7 +36,7 @@ public class GenericService {
 	private MemberDetailsRepository memberRepository;
 
 	public ResponseEntity<Object> restAPICall() {
-		final String uri = "https://countriesnow.space/api/v0.1/countries/states";
+		final String uri = "https://jsonplaceholder.typicode.com/todos/1";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		headers.set("X-COM-PERSIST", "NO");

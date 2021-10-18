@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>ऐड/अपडेट मेंबर कन्फर्मेशन</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous">
+<link
+	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
+	rel="stylesheet" />
+<link
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
+	rel="stylesheet" />
+<link rel="stylesheet" href="/css/starter-template.css">
+
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+	crossorigin="anonymous"></script>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+<script
+	src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js"></script>
+<script type="text/javascript" th:src="@{~/js/addmember.js}"></script>
+</head>
+<body>
+	<div class="panel-heading">
+		<h1 class="panel-title" align="center">ऐड/अपडेट मेंबर कन्फर्मेशन</h1>
+	</div>
+	<br>
+	<br>
+	<h2 align="center">नए प्रोफाइल वाले यूजर प्रोफाइल ऐड करने के बाद
+		जांच एवं अप्रूवल हेतु मोबाइल नंबर +91-9425405688 संपर्क करे।</h2>
+	<br>
+	<br>
+	<table class="center">
+		<tr>
+			<td><h4>मेंबर ID:</h4></td>
+			<td><h4 th:text="${membersDetailDTO.memberId}"></h4></td>
+		</tr>
+		<tr>
+			<td></td>
+		</tr>
+	</table>
+	<br>
+	<br>
+	<h3 align="center">कृपया अपना मेंबर ID नोट करें और ऊपर दिए गए
+		मोबाइल नंबर पर जांच और अप्रूवल के लिए संपर्क करे। कृपया ध्यान दें कि
+		जांच और अप्रूवल के बाद ही आपका प्रोफाइल वेबसाइट पर डिस्प्ले होगा।</h3>
+	<br>
+	<br>
+	<br>
+	<h3 align="center">
+		<a href="http://asativaishyaparichay.in/?page_id=27">Matrimony
+			Home</a>
+	</h3>
+	<h3 align="center">
+		<a href="/matrimony/addupdatemember">Add New Member</a>
+	</h3>
+	<h3 align="center">
+		<a href="/matrimony/listmembers">List Existing Members</a>
+	</h3>
+</body>
+</html>

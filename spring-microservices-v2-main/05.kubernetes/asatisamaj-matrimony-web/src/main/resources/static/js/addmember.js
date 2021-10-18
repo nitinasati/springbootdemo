@@ -80,7 +80,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$.ajax({
+/*	$.ajax({
 		type: "GET",
 		url: "https://countriesnow.space/api/v0.1/countries/info?returns=currency",
 		// Append to data
@@ -172,6 +172,6 @@ $(document).ready(function() {
 				});
 			}
 		});
-	});
+	});*/
 
 });

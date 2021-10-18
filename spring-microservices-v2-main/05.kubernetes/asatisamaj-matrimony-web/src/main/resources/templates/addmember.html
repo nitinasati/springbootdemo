@@ -35,6 +35,7 @@
 <script type="text/javascript" th:src="@{~/js/addmember.js}"></script>
 </head>
 <body>
+<h2 align="center">नए प्रोफाइल वाले यूजर प्रोफाइल ऐड करने के बाद जांच एवं अप्रूवल हेतु मोबाइल नंबर +91-9425405688 संपर्क करे।</h2>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
@@ -43,7 +44,7 @@
 						<h3 class="panel-title">Add/Update Member</h3>
 					</div>
 					<div class="panel-body">
-						<form action="#" th:action="@{/addupdatemember}"
+						<form action="#" th:action="@{/matrimony/addupdatemember}"
 							th:object="${membersDetailDTO}" method="post" class="row g-3"
 							id="addUserForm">
 							<div class="form-group">
@@ -108,6 +109,7 @@
 										<option value=''>--Manglik--</option>
 										<option value='male'>Yes</option>
 										<option value='female'>No</option>
+										<option value='female'>Not known</option>
 									</select>
 								</div>
 							</div>
@@ -143,7 +145,7 @@
 										placeholder="Full Address" th:field="*{fullAddress}" required />
 								</div>
 							</div>
-							<div class="form-group">
+							<!-- 	<div class="form-group">
 								<div class="col-sm-10">
 									<select class="form-control" id="country" th:field="*{country}">
 										<option value="">--Select Country--</option>
@@ -157,24 +159,23 @@
 										<option value="">--Select State--</option>
 									</select>
 								</div>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<div class="col-sm-10">
-									<select class="form-control" id="cityState"	th:field="*{cityState}" required>
-										<option value="">--Select City--</option>
-									</select>
+									<input type="text" class="form-control" id="cityState" placeholder="Enter city, state"
+										th:field="*{cityState}" required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="mobile1"
-										placeholder="Mobile1" th:field="*{mobile1}" required />
+										placeholder="Current Mobile Number" th:field="*{mobile1}" required />
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-10">
 									<input type="text" class="form-control" id="mobile2"
-										placeholder="Mobile2" th:field="*{mobile2}" />
+										placeholder="Whatsapp Number" th:field="*{mobile2}" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -220,14 +221,14 @@
 								</div>
 							</div>
 						</form>
-						<a href="/listmembers">List Existing Members</a>
+						<a href="/matrimony/listmembers">List Existing Members</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-<script th:inline="javascript">
-/*<![CDATA[*/
+	<script th:inline="javascript">
+		/*<![CDATA[*/
 
 		var jsGender = /*[[${membersDetailDTO.gender}]]*/null;
 		var jsCountry = /*[[${membersDetailDTO.country}]]*/null;
@@ -241,8 +242,8 @@
 		var jsManglik = /*[[${membersDetailDTO.manglik}]]*/null;
 		var jsBirthDate = /*[[${membersDetailDTO.birthDate}]]*/null;
 
-/*]]>*/
-</script>
+		/*]]>*/
+	</script>
 	<script>
 		$(function() {
 			$("#birthDate").datepicker({

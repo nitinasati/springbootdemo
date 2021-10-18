@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="core/head :: head">  <meta charset="utf-8">
 <title>Add New Member</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -36,8 +37,8 @@
 			<div class="col-md-6">
 				<div class="panel panel-default" th:fragment="addUserData">
 					<div class="panel-heading">
-						<h3><a href="/addupdatemember">Add new member</a></h3>
-						<h3><a href="/listmembers">List Existing Members</a></h3>
+						<h3><a href="/matrimony/addupdatemember">Add new member</a></h3>
+						<h3><a href="/matrimony/listmembers">List Existing Members</a></h3>
 					</div>
 				</div>
 			</div>

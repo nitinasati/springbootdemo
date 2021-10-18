@@ -1,4 +1,4 @@
-package com.asatisamaj.matrimony.domain;
+package com.asatisamaj.matrimony.entities;
 
 import java.util.Date;
 

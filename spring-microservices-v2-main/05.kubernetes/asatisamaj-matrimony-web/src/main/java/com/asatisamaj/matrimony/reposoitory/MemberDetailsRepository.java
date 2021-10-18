@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import com.asatisamaj.matrimony.domain.MembersDetail;
+import com.asatisamaj.matrimony.entities.MembersDetail;
 
 public interface MemberDetailsRepository 
 	extends JpaRepository<MembersDetail, Long>, JpaSpecificationExecutor<MembersDetail> {

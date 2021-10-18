@@ -3,6 +3,7 @@ package com.asatisamaj.matrimony.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import com.asatisamaj.matrimony.entities.MembersDetail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
