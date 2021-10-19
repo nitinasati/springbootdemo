@@ -76,8 +76,6 @@ public class BaseController {
 		return mv;
 	}
 
-
-
 	@GetMapping(value = "/error")
 	public String showError(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return "error";
@@ -105,7 +103,7 @@ public class BaseController {
 
 	@PostMapping(value = "/getmemberlist")
 	public ResponseEntity<Map<String, Object>> listUsersPaginatedGetMemberList(HttpServletRequest request,
-			HttpServletResponse response, Model model) {
+			HttpServletResponse response, Authentication authentication, Model model) {
 
 		try {
 			LOGGER.info("List member request is received ...");
@@ -141,7 +139,7 @@ public class BaseController {
 			responseReturn.put("status", "Error");
 			responseReturn.put("statusMessage", e);
 			e.printStackTrace();
-			LOGGER.error("Error while returning list of members ... ",e);
+			LOGGER.error("Error while returning list of members ... ", e);
 			return new ResponseEntity<>(responseReturn, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -215,7 +213,6 @@ public class BaseController {
 	private void setAdditionalFields(@Valid MembersDetailDTO membersDetailDTO) {
 
 		long millis = System.currentTimeMillis();
-		
 
 		if (null == membersDetailDTO.getStatus() || membersDetailDTO.getStatus().isBlank()) {
 			membersDetailDTO.setStatus("Pending");
@@ -238,6 +235,7 @@ public class BaseController {
 			membersDetailDTO.setMemberId(memberRepository.findMaxMemberId() + 1);
 		}
 	}
+
 	/**
 	 * @param reqMemberId
 	 * @param membersDetailDTO

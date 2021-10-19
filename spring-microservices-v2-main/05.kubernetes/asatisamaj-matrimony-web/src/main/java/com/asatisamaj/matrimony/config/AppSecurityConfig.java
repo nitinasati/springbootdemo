@@ -43,21 +43,23 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-           //     .antMatchers("/matrimony/**").hasAnyAuthority("CUSTOMER", "ADMIN").antMatchers("/admin/**").hasAuthority("ADMIN")
-               //  .antMatchers("/matrimony/**").permitAll()
-                 .antMatchers("/resources/**", "/static/**","/css/**","/favicon.ico","/js/**","/plugins/**","/dist/**").permitAll()
-                 .antMatchers("/login").permitAll()
-                 .anyRequest().fullyAuthenticated()
+                //.antMatchers("/matrimony/**").hasAnyAuthority("CUSTOMER", "ADMIN").antMatchers("/admin/**").hasAuthority("ADMIN")
+		        .antMatchers("/matrimony/**")
+		        .permitAll()
                 .and()
-     			// .exceptionHandling().accessDeniedHandler(accessDeniedHandler()) .and()
-//                .rememberMe().tokenRepository(persistentTokenRepository())
-  //              .rememberMeCookieDomain("domain")
-    //            .rememberMeCookieName("custom-remember-me-cookie")
+				.exceptionHandling().accessDeniedHandler(accessDeniedHandler()) .and()
+				 //Setting HTTPS for my account
+				 //.requiresChannel().anyRequest().requiresSecure() .and()
+                 // Remember me configurations
+                .rememberMe().tokenRepository(persistentTokenRepository())
+                .rememberMeCookieDomain("domain")
+                .rememberMeCookieName("custom-remember-me-cookie")
                 .userDetailsService(this.userDetailsService)
-    //            .tokenValiditySeconds(2000)
-              //  .useSecureCookie(true)
+                .tokenValiditySeconds(2000)
+                //.useSecureCookie(true)
 
                 //Login configurations
+                .and()
                 .formLogin().defaultSuccessUrl("/account/home")
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
@@ -66,8 +68,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 //logout configurations
                 .and()
                 .logout().deleteCookies("dummyCookie")
-                .logoutSuccessUrl("/login");
-
+                .logoutSuccessUrl("/login")
+                .and()
+                .csrf().disable();
                 /*
                 .and()
                 .sessionManagement()

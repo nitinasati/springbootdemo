@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,7 +91,7 @@ public class MatrimonyRestController {
 	}
 
 	@GetMapping(value = "/getdropdownsamajarea")
-	public ResponseEntity<Map<String, Object>> listDropDownSamajArea() {
+	public ResponseEntity<Map<String, Object>> listDropDownSamajArea(Authentication authentication) {
 		Map<String, Object> response = new HashMap<>();
 		List<DropDown> dropDownValues = new ArrayList<>();
 		DropDownValues dropDownSamajArea = new DropDownValues();
