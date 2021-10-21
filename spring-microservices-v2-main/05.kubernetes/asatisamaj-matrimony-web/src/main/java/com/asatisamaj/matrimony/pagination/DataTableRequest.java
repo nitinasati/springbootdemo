@@ -60,6 +60,8 @@ public class DataTableRequest<T> {
 	private String searchByEducationDetails;
 
 	private String searchByOccupation;
+	
+	private String searchByStatus;
 
 	/**
 	 * Instantiates a new data table request.
@@ -247,6 +249,7 @@ public class DataTableRequest<T> {
 			this.setLength(Integer.parseInt(request.getParameter(PaginationCriteria.PAGE_SIZE)));
 			this.setUniqueId(request.getParameter("_"));
 			this.setDraw(request.getParameter(PaginationCriteria.DRAW));
+			this.setSearchByStatus(request.getParameter("searchByStatus"));
 			this.setSearchByGender(request.getParameter("searchByGender"));
 			this.setSearchBySamajArea(request.getParameter("searchBySamajArea"));
 			this.setSearchByMemberId(request.getParameter("searchByMemberId"));
@@ -395,6 +398,14 @@ public class DataTableRequest<T> {
 
 	public void setSearchByOccupation(String searchByOccupation) {
 		this.searchByOccupation = searchByOccupation;
+	}
+
+	public String getSearchByStatus() {
+		return searchByStatus;
+	}
+
+	public void setSearchByStatus(String searchByStatus) {
+		this.searchByStatus = searchByStatus;
 	}
 
 }

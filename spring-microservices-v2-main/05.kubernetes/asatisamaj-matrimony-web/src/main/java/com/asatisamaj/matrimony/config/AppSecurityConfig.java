@@ -23,6 +23,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.asatisamaj.matrimony.handlers.CustomAccessDeniedHandler;
 import com.asatisamaj.matrimony.handlers.CustomSuccessHandler;
@@ -67,8 +68,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(failureHandler())
                 //logout configurations
                 .and()
-                .logout().deleteCookies("dummyCookie")
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .deleteCookies("dummyCookie")
                 .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
                 .and()
                 .csrf().disable();
                 /*

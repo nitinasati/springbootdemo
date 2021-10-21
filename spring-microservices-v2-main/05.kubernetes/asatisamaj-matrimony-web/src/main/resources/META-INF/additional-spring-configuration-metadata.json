@@ -8,5 +8,40 @@
     "name": "management.health.livenessState.enabled",
     "type": "java.lang.String",
     "description": "A description for 'management.health.livenessState.enabled'"
+  },
+  {
+    "name": "management.endpoint.health.livenessState.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'management.endpoint.health.livenessState.enabled'"
+  },
+  {
+    "name": "management.endpoint.health.readinessState.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'management.endpoint.health.readinessState.enabled'"
+  },
+  {
+    "name": "jdj.secure.token.validity",
+    "type": "java.lang.String",
+    "description": "A description for 'jdj.secure.token.validity'"
+  },
+  {
+    "name": "jdj.security.faledlogin.count",
+    "type": "java.lang.String",
+    "description": "A description for 'jdj.security.faledlogin.count'"
+  },
+  {
+    "name": "jdj.brute.force.cache.max",
+    "type": "java.lang.String",
+    "description": "A description for 'jdj.brute.force.cache.max'"
+  },
+  {
+    "name": "site.base.utl.http",
+    "type": "java.lang.String",
+    "description": "A description for 'site.base.utl.http'"
+  },
+  {
+    "name": "site.base.utl.https",
+    "type": "java.lang.String",
+    "description": "A description for 'site.base.utl.https'"
   }
 ]}

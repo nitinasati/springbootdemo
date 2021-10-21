@@ -7,8 +7,6 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -25,6 +23,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,12 +36,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
+import com.asatisamaj.matrimony.domain.MemberStatus;
 import com.asatisamaj.matrimony.domain.MembersDetailDTO;
 import com.asatisamaj.matrimony.domain.SearchCriteria;
+import com.asatisamaj.matrimony.domain.UserGroupType;
 import com.asatisamaj.matrimony.entities.MembersDetail;
 import com.asatisamaj.matrimony.pagination.DataTableRequest;
 import com.asatisamaj.matrimony.pagination.PaginationCriteria;
-import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
+import com.asatisamaj.matrimony.service.MemberDetailService;
 import com.asatisamaj.matrimony.utils.GenericSpecification;
 import com.asatisamaj.matrimony.utils.SearchOperation;
 
@@ -56,21 +58,25 @@ public class BaseController {
 	private static final Logger LOGGER = LogManager.getLogger(BaseController.class);
 
 	@Autowired
-	private MemberDetailsRepository memberRepository;
+	public MemberDetailService memberDetailService;
 
-	/** The entity manager. */
-	@PersistenceContext
-	private EntityManager entityManager;
+	private GrantedAuthority adminAuthority = new SimpleGrantedAuthority(UserGroupType.ADMIN.toString());
 
 	@GetMapping(value = "/listmembers")
-	public String listUsers(Model model, Authentication authentication) {
+	public String listUsers(Model model) {
 		return "list_members";
 	}
 
 	@GetMapping(value = "/addupdatemember")
-	public ModelAndView addMember(@RequestParam(value = "memberId", defaultValue = "NOTPROVIDED") String reqMemberId) {
+	public ModelAndView addMember(@RequestParam(value = "memberId", defaultValue = "NOTPROVIDED") String reqMemberId,
+			Authentication authentication) {
 		ModelAndView mv = new ModelAndView("index");
-		MembersDetailDTO membersDetailDTO = getMembersDetail(reqMemberId);
+		if (!reqMemberId.equalsIgnoreCase("NOTPROVIDED") && (null == authentication
+				|| !authentication.getAuthorities().contains(adminAuthority))) {
+			mv.setViewName("list_members");
+			return mv;
+		}
+		MembersDetailDTO membersDetailDTO = getMembersDetail(reqMemberId, authentication);
 		mv.addObject("membersDetailDTO", membersDetailDTO);
 		mv.setViewName("addmember");
 		return mv;
@@ -82,16 +88,18 @@ public class BaseController {
 	}
 
 	@PostMapping(value = "/addupdatemember")
-	public ModelAndView addMember(@Valid @ModelAttribute MembersDetailDTO membersDetailDTO, Model model,
-			BindingResult bindingResult) {
+	public ModelAndView addMember(@Valid @ModelAttribute MembersDetailDTO membersDetailDTO,
+			Authentication authentication, Model model, BindingResult bindingResult) {
 		ModelAndView mv = new ModelAndView("index");
+		if (null == authentication || !authentication.getAuthorities().contains(adminAuthority)) {
+			membersDetailDTO.setStatus(MemberStatus.PENDING.toString());
+		}
 		MembersDetail membersDetail = new MembersDetail();
 		if (!bindingResult.hasErrors()) {
-
-			setAdditionalFields(membersDetailDTO);
+			setAdditionalFields(membersDetailDTO, authentication);
 
 			BeanUtils.copyProperties(membersDetailDTO, membersDetail);
-			memberRepository.save(membersDetail);
+			memberDetailService.saveMember(membersDetail);
 
 			mv.addObject("membersDetailDTO", membersDetailDTO);
 			mv.setViewName("addmemberconfirmation");
@@ -116,14 +124,14 @@ public class BaseController {
 			matrimonySearchCriteria.setPage(pagination.getPageNumber() / pagination.getPageSize());
 			matrimonySearchCriteria.setSize(pagination.getPageSize());
 			GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
-			searchFields(dataTableInRQ, genericSpecification);
+			searchFields(dataTableInRQ, genericSpecification, authentication);
 
 			Pageable paging = PageRequest.of(matrimonySearchCriteria.getPage(), matrimonySearchCriteria.getSize(),
 					Sort.by(matrimonySearchCriteria.getSortDirection().equalsIgnoreCase("ASC") ? Direction.ASC
 							: Direction.DESC, matrimonySearchCriteria.getSortColumn()));
 
 			Page<MembersDetail> pageTuts;
-			pageTuts = memberRepository.findAll(genericSpecification, paging);
+			pageTuts = memberDetailService.getMemberDetails(genericSpecification, paging);
 
 			Map<String, Object> responseReturn = new HashMap<>();
 			responseReturn.put("data", pageTuts.getContent());
@@ -149,7 +157,7 @@ public class BaseController {
 	 * @param genericSpecification
 	 */
 	private void searchFields(DataTableRequest<MembersDetail> dataTableInRQ,
-			GenericSpecification<MembersDetail> genericSpecification) {
+			GenericSpecification<MembersDetail> genericSpecification, Authentication authentication) {
 		dataTableInRQ.getColumns().forEach(column -> {
 			if (!column.getSearch().isBlank()) {
 				if (column.getName().equalsIgnoreCase("memberId")) {
@@ -163,7 +171,15 @@ public class BaseController {
 			}
 		});
 
-		genericSpecification.add(new SearchCriteria("status", "Active", SearchOperation.EQUAL));
+		if (null != authentication && authentication.getAuthorities().contains(adminAuthority)) {
+			if (null != dataTableInRQ.getSearchByStatus() && !dataTableInRQ.getSearchByStatus().isBlank()) {
+				genericSpecification
+						.add(new SearchCriteria("status", dataTableInRQ.getSearchByStatus(), SearchOperation.EQUAL));
+			}
+		} else {
+			genericSpecification
+					.add(new SearchCriteria("status", MemberStatus.ACTIVE.toString(), SearchOperation.EQUAL));
+		}
 
 		if (null != dataTableInRQ.getSearchByMemberId() && !dataTableInRQ.getSearchByMemberId().isBlank()) {
 			genericSpecification.add(new SearchCriteria("memberId", Long.parseLong(dataTableInRQ.getSearchByMemberId()),
@@ -210,17 +226,14 @@ public class BaseController {
 		}
 	}
 
-	private void setAdditionalFields(@Valid MembersDetailDTO membersDetailDTO) {
+	private void setAdditionalFields(@Valid MembersDetailDTO membersDetailDTO, Authentication authentication) {
 
 		long millis = System.currentTimeMillis();
 
-		if (null == membersDetailDTO.getStatus() || membersDetailDTO.getStatus().isBlank()) {
-			membersDetailDTO.setStatus("Pending");
-		}
-
 		if (null != membersDetailDTO.getMemberId()) // update check
 		{
-			MembersDetailDTO membersDetailTemp = getMembersDetail((membersDetailDTO.getMemberId().toString()));
+			MembersDetailDTO membersDetailTemp = getMembersDetail(membersDetailDTO.getMemberId().toString(),
+					authentication);
 			membersDetailDTO.setUpdateDate(new Date(millis));
 			membersDetailDTO.setUpdateProgram("website-update");
 			membersDetailDTO.setUpdateUser("update");
@@ -232,7 +245,7 @@ public class BaseController {
 			membersDetailDTO.setInsertDate(new Date(millis));
 			membersDetailDTO.setInsertProgram("website-insert");
 			membersDetailDTO.setInsertUser("insert");
-			membersDetailDTO.setMemberId(memberRepository.findMaxMemberId() + 1);
+			membersDetailDTO.setMemberId(memberDetailService.findMaxId() + 1);
 		}
 	}
 
@@ -240,17 +253,21 @@ public class BaseController {
 	 * @param reqMemberId
 	 * @param membersDetailDTO
 	 */
-	private MembersDetailDTO getMembersDetail(String reqMemberId) {
+	private MembersDetailDTO getMembersDetail(String reqMemberId, Authentication authentication) {
 		MembersDetailDTO membersDetail = new MembersDetailDTO();
 		if (!reqMemberId.equalsIgnoreCase("NOTPROVIDED")) {
 
 			GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
 			genericSpecification
 					.add(new SearchCriteria("memberId", Long.parseLong(reqMemberId), SearchOperation.EQUAL));
-			genericSpecification.add(new SearchCriteria("status", "Active", SearchOperation.EQUAL));
+
+			if (null == authentication || !authentication.getAuthorities().contains(adminAuthority)) {
+				genericSpecification
+						.add(new SearchCriteria("status", MemberStatus.ACTIVE.toString(), SearchOperation.EQUAL));
+			}
 			Pageable paging = PageRequest.of(0, 1, Sort.by(Direction.ASC, "memberId"));
 			Page<MembersDetail> pageTuts;
-			pageTuts = memberRepository.findAll(genericSpecification, paging);
+			pageTuts = memberDetailService.getMemberDetails(genericSpecification, paging);
 			if (!pageTuts.getContent().isEmpty())
 				BeanUtils.copyProperties(pageTuts.getContent().get(0), membersDetail);
 		}

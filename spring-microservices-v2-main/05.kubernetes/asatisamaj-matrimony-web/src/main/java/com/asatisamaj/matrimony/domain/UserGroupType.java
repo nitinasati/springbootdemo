@@ -4,5 +4,5 @@ public enum UserGroupType {
 
     ADMIN,
     CUSTOMER,
-    Editor
+    EDITOR
 }

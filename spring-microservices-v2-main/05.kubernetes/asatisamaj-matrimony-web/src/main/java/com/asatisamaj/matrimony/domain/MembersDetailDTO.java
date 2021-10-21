@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class MembersDetailDTO {
+public class MembersDetailDTO{
 
 	private Long id;
 	private Long memberId;

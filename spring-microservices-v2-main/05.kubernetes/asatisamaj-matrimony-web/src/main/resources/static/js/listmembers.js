@@ -20,6 +20,7 @@ $(document).ready(function() {
 				data.searchByAgeRange = $('#searchByAgeRange').val();
 				data.searchByOccupation = $('#occupation').val();
 				data.searchBySamajArea = $('#samajArea').val();
+				data.searchByStatus = $('#searchByStatus').val();
 				//process data before sent to server.
 			}
 		},
@@ -27,19 +28,16 @@ $(document).ready(function() {
 			{
 				"data": "memberId", "name": "memberId", "title": "मेंबर ID", "className": "dt-body-left"
 			},
-/*			{
+			{
 				"data": "fullName", "name": "fullName", "title": "पूरा नाम", "className": "dt-body-left", "render": function(data, type, row, meta) {
 					var idp = row['memberId'];
-					return '<a href="/addupdatemember?memberId=' + idp + '">' + data + '</a>';
+					return '<a href="/matrimony/addupdatemember?memberId=' + idp + '">' + data + '</a>';
 				}
-			},*/
-			{
-				"data": "fullName", "name": "fullName", "title": "पूरा नाम", "className": "dt-body-left",
 			},
 			{ "data": "fatherName", "name": "fatherName", "title": "पिता का नाम", "className": "dt-body-left" },
 			{ "data": "education", "name": "education", "title": "शिक्षा", "className": "dt-body-left" },
 			{ "data": "occupation", "name": "occupation", "title": "व्यवसाय", "className": "dt-body-left" },
-		//	{ "data": "mobile1", "name": "mobile1", "title": "Contact No.", "className": "dt-body-left" },
+			{ "data": "mobile1", "name": "mobile1", "title": "सम्पक्र", "className": "dt-body-left" },
 			{ "data": "age", "name": "age", "title": "उम्र", "className": "dt-body-center" },
 			{ "data": "samajArea", "name": "samajArea", "title": "समाज क्षेत्र", "className": "dt-body-left" },
 			{ "data": "educationDetails", "name": "educationDetails", "title": "शिक्षा विवरण", "className": "dt-body-left" },
@@ -52,7 +50,7 @@ $(document).ready(function() {
 			{ "data": "height", "name": "height", "title": "हाइट", "className": "dt-body-center" },
 			{ "data": "gotra", "name": "gotra", "title": "गोत्र", "className": "dt-body-center" },
 			{ "data": "manglik", "name": "manglik", "title": "मांगलिक?", "className": "dt-body-center" },
-		//	{ "data": "mobile2", "name": "mobile2", "title": "सम्पक्र (whatsapp) :", "className": "dt-body-left" },
+			{ "data": "mobile2", "name": "mobile2", "title": "सम्पक्र (whatsapp) :", "className": "dt-body-left" },
 			{ "data": "boardUniversity", "name": "boardUniversity", "title": "बोर्ड/यूनिवर्सिटी", "className": "dt-body-left" },
 			{ "data": "occupationDetails", "name": "occupationDetails", "title": "व्यवसाय विवरण", "className": "dt-body-left" },
 			{ "data": "fatherOccupation", "name": "fatherOccupation", "title": "पिता विवरण", "className": "dt-body-left" },

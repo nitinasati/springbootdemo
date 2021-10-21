@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <title>Member List</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -45,14 +46,25 @@
 		<div class="table-responsive">
 			<table class="display" style="width: 100%">
 				<tr>
-					<td><input type='text' id='searchByMemberId'
-						placeholder='member id' /> <select id='samajArea'></select> <select
-						id='gender'>
+			<td><select	id='searchByStatus' sec:authorize="hasAnyAuthority('ADMIN')">
+							<option value=''>--Status--</option>
+							<option value='PENDING'>Pending</option>
+							<option value='ACTIVE'>Active</option>
+							<option value='INACTIVE'>Inactive</option>
+					</select> 
+					
+					<input type='text' id='searchByMemberId'
+						placeholder='member id' /> <select id='samajArea'></select> 
+					<select	id='gender'>
 							<option value=''>--Gender--</option>
 							<option value='male'>Male</option>
 							<option value='female'>Female</option>
-					</select> <select id='searchByAgeRange'></select> <select id='education'></select>
-						<select id='educationDetails'></select> <select id='occupation'></select>
+					</select> 
+					
+						<select id='searchByAgeRange'></select> 
+						<select id='education'></select>
+						<select id='educationDetails'></select> 
+						<select id='occupation'></select>
 						<button type="button" id='searchBtn'>Search</button>
 						<button id="btn-show-all-doc">Expand / Collapse</button></td>
 				</tr>
@@ -66,7 +78,7 @@
 					<th>age</th>
 					<th>fatherName</th>
 					<th>birthDate</th>
-					<!-- <th>mobile1</th> -->
+					<th>mobile1</th>
 					<th>educationDetails</th>
 					<th>occupation</th>
 					<th>fullAddress</th>
@@ -80,7 +92,7 @@
 					<th>height</th>
 					<th>gotra</th>
 					<th>manglik</th>
-					<!-- <th>mobile2</th> -->
+					<th>mobile2</th>
 					<th>education</th>
 					<th>boardUniversity</th>
 					<th>occupationDetails</th>

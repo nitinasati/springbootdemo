@@ -6,19 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,14 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.asatisamaj.matrimony.domain.DropDown;
 import com.asatisamaj.matrimony.domain.DropDownValues;
 import com.asatisamaj.matrimony.domain.MatrimonySearchCriteria;
-import com.asatisamaj.matrimony.domain.SearchCriteria;
 import com.asatisamaj.matrimony.entities.MembersDetail;
-import com.asatisamaj.matrimony.pagination.DataTableRequest;
-import com.asatisamaj.matrimony.pagination.PaginationCriteria;
 import com.asatisamaj.matrimony.reposoitory.MemberDetailsRepository;
 import com.asatisamaj.matrimony.service.GenericService;
 import com.asatisamaj.matrimony.utils.GenericSpecification;
-import com.asatisamaj.matrimony.utils.SearchOperation;
 
 @RestController
 @RequestMapping("/matrimony/rest/api")

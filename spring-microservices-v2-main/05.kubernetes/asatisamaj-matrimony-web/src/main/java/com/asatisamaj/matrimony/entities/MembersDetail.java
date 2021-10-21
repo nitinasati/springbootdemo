@@ -17,6 +17,7 @@ public class MembersDetail {
 	private Long id;
 	private Long memberId;
 	private String samajArea;
+
 	private String fullName;
 	private String fatherName;
 	private String motherName;
@@ -113,7 +114,7 @@ public class MembersDetail {
 	}
 
 	public void setMemberId(Long memberId) {
-			this.memberId = memberId;
+		this.memberId = memberId;
 	}
 
 	public String getSamajArea() {
