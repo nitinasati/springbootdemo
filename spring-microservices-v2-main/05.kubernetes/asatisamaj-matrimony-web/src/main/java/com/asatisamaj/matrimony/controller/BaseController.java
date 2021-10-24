@@ -3,7 +3,6 @@
  */
 package com.asatisamaj.matrimony.controller;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,12 +70,14 @@ public class BaseController {
 	public ModelAndView addMember(@RequestParam(value = "memberId", defaultValue = "NOTPROVIDED") String reqMemberId,
 			Authentication authentication) {
 		ModelAndView mv = new ModelAndView("index");
+		MembersDetailDTO membersDetailDTO = new MembersDetailDTO();
 		if (!reqMemberId.equalsIgnoreCase("NOTPROVIDED") && (null == authentication
 				|| !authentication.getAuthorities().contains(adminAuthority))) {
 			mv.setViewName("list_members");
 			return mv;
 		}
-		MembersDetailDTO membersDetailDTO = getMembersDetail(reqMemberId, authentication);
+		MembersDetail membersDetail = memberDetailService.getMembersDetail(reqMemberId, authentication);
+		BeanUtils.copyProperties(membersDetail, membersDetailDTO);
 		mv.addObject("membersDetailDTO", membersDetailDTO);
 		mv.setViewName("addmember");
 		return mv;
@@ -95,8 +96,20 @@ public class BaseController {
 			membersDetailDTO.setStatus(MemberStatus.PENDING.toString());
 		}
 		MembersDetail membersDetail = new MembersDetail();
+		boolean update = false;
 		if (!bindingResult.hasErrors()) {
-			setAdditionalFields(membersDetailDTO, authentication);
+			
+			if(membersDetailDTO.getMemberId() != null)
+			{
+				update = true;
+				MembersDetail membersDetailTemp = memberDetailService.getMembersDetail(membersDetailDTO.getMemberId().toString(), authentication);
+				membersDetailDTO.setImagePath(membersDetailTemp.getImagePath());
+				membersDetailDTO.setInsertDate(membersDetailTemp.getInsertDate());
+				membersDetailDTO.setInsertProgram(membersDetailTemp.getInsertProgram());
+				membersDetailDTO.setInsertUser(membersDetailTemp.getInsertUser());
+			}
+				
+			memberDetailService.setAuditFields(membersDetailDTO,update);
 
 			BeanUtils.copyProperties(membersDetailDTO, membersDetail);
 			memberDetailService.saveMember(membersDetail);
@@ -226,51 +239,4 @@ public class BaseController {
 		}
 	}
 
-	private void setAdditionalFields(@Valid MembersDetailDTO membersDetailDTO, Authentication authentication) {
-
-		long millis = System.currentTimeMillis();
-
-		if (null != membersDetailDTO.getMemberId()) // update check
-		{
-			MembersDetailDTO membersDetailTemp = getMembersDetail(membersDetailDTO.getMemberId().toString(),
-					authentication);
-			membersDetailDTO.setUpdateDate(new Date(millis));
-			membersDetailDTO.setUpdateProgram("website-update");
-			membersDetailDTO.setUpdateUser("update");
-			membersDetailDTO.setInsertDate(membersDetailTemp.getInsertDate());
-			membersDetailDTO.setInsertProgram(membersDetailTemp.getInsertProgram());
-			membersDetailDTO.setInsertUser(membersDetailTemp.getInsertUser());
-		} else {
-
-			membersDetailDTO.setInsertDate(new Date(millis));
-			membersDetailDTO.setInsertProgram("website-insert");
-			membersDetailDTO.setInsertUser("insert");
-			membersDetailDTO.setMemberId(memberDetailService.findMaxId() + 1);
-		}
-	}
-
-	/**
-	 * @param reqMemberId
-	 * @param membersDetailDTO
-	 */
-	private MembersDetailDTO getMembersDetail(String reqMemberId, Authentication authentication) {
-		MembersDetailDTO membersDetail = new MembersDetailDTO();
-		if (!reqMemberId.equalsIgnoreCase("NOTPROVIDED")) {
-
-			GenericSpecification<MembersDetail> genericSpecification = new GenericSpecification<>();
-			genericSpecification
-					.add(new SearchCriteria("memberId", Long.parseLong(reqMemberId), SearchOperation.EQUAL));
-
-			if (null == authentication || !authentication.getAuthorities().contains(adminAuthority)) {
-				genericSpecification
-						.add(new SearchCriteria("status", MemberStatus.ACTIVE.toString(), SearchOperation.EQUAL));
-			}
-			Pageable paging = PageRequest.of(0, 1, Sort.by(Direction.ASC, "memberId"));
-			Page<MembersDetail> pageTuts;
-			pageTuts = memberDetailService.getMemberDetails(genericSpecification, paging);
-			if (!pageTuts.getContent().isEmpty())
-				BeanUtils.copyProperties(pageTuts.getContent().get(0), membersDetail);
-		}
-		return membersDetail;
-	}
 }

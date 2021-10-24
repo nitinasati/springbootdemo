@@ -3,17 +3,7 @@
 <head>
 <title>ऐड/अपडेट मेंबर कन्फर्मेशन</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-	crossorigin="anonymous">
-<link
-	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css"
-	rel="stylesheet" />
-<link
-	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
-	rel="stylesheet" />
+
 <link rel="stylesheet" href="/css/starter-template.css">
 
 <link rel="stylesheet"
@@ -21,20 +11,18 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
-	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script
-	src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-<script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
 	crossorigin="anonymous"></script>
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
-<script
-	src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js"></script>
-<script type="text/javascript" th:src="@{~/js/addmember.js}"></script>
+
+<script type="text/javascript" th:src="@{~/js/common.js}"></script>
 </head>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <body>
 	<div class="panel-heading">
 		<h1 class="panel-title" align="center">ऐड/अपडेट मेंबर कन्फर्मेशन</h1>
@@ -47,21 +35,44 @@
 	<br>
 	<table class="center">
 		<tr>
-			<td><h4>मेंबर ID:</h4></td>
-			<td><h4 th:text="${membersDetailDTO.memberId}"></h4></td>
+			<td><h3>मेंबर ID:</h3></td>
+			<td><h3 th:text="${membersDetailDTO.memberId}"></h3></td>
 		</tr>
 		<tr>
 			<td></td>
 		</tr>
 	</table>
-	<br>
-	<br>
+	<h4 align="center">प्रोफाइल पिक्चर अपलोड करने के लिए नीचे दिए गए
+		बटन पर क्लिक करे।</h4>
+	<br />
+	<form method="POST" action="#" enctype="multipart/form-data">
+		<table class="center">
+			<tr>
+				<td><input type="file" name="image" id="image"
+					onchange="upload()" /></td>
+			</tr>
+			<tr>
+				<td><progress id="progressBar" value="0" max="100"
+						style="width: 250px;"></progress></td>
+			</tr>
+			<tr>
+				<td align="center"><h3 align="center" id="status"></h3></td>
+			</tr>
+			<tr>
+				<td>
+					<h4 align="center">Only one file with valid extensions (jpg, jpeg, gif and png) are allowed upto 5MB.</h4>
+					<br />
+				</td>
+			</tr>
+
+		</table>
+	</form>
+	
 	<h3 align="center">कृपया अपना मेंबर ID नोट करें और ऊपर दिए गए
 		मोबाइल नंबर पर जांच और अप्रूवल के लिए संपर्क करे। कृपया ध्यान दें कि
 		जांच और अप्रूवल के बाद ही आपका प्रोफाइल वेबसाइट पर डिस्प्ले होगा।</h3>
 	<br>
-	<br>
-	<br>
+
 	<h3 align="center">
 		<a href="http://asativaishyaparichay.in/?page_id=27">Matrimony
 			Home</a>
@@ -72,5 +83,54 @@
 	<h3 align="center">
 		<a href="/matrimony/listmembers">List Existing Members</a>
 	</h3>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var jsMemberId = /*[[${membersDetailDTO.memberId}]]*/null;
+		/*]]>*/
+	</script>
+
+	<script type="text/javascript">
+		function _(el) {
+			return document.getElementById(el);
+		}
+
+		function upload() {
+			var file = _("image").files[0];
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var formdata = new FormData();
+			formdata.append("file", file);
+			formdata.append("fileName", jsMemberId);
+			var ajax = new XMLHttpRequest();
+			ajax.upload.addEventListener("progress", progressHandler, false);
+			ajax.addEventListener("load", completeHandler, false);
+			ajax.addEventListener("error", errorHandler, false);
+			ajax.addEventListener("abort", abortHandler, false);
+			ajax.open("POST", "/matrimony/image/upload");
+			ajax.setRequestHeader(header, token);
+			ajax.send(formdata);
+		}
+
+		function progressHandler(event) {
+
+			var percent = (event.loaded / event.total) * 100;
+			_("progressBar").value = Math.round(percent);
+			_("status").innerHTML = '<img src="' + "/img/progress.gif" + '" />';
+		}
+
+		function completeHandler(event) {
+			_("status").innerHTML = event.target.responseText;
+			_("progressBar").value = 0;
+		}
+
+		function errorHandler(event) {
+			_("status").innerHTML = "Upload Failed";
+		}
+
+		function abortHandler(event) {
+			_("status").innerHTML = "Upload Aborted";
+		}
+	</script>
 </body>
 </html>

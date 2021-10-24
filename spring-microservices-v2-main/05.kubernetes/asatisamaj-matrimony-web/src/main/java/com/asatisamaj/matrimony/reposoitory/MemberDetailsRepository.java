@@ -10,5 +10,5 @@ public interface MemberDetailsRepository
 	extends JpaRepository<MembersDetail, Long>, JpaSpecificationExecutor<MembersDetail> {
 	
 	@Query(value = "SELECT max(memberId) FROM MembersDetail")
-	public Long findMaxMemberId();
+	public Long findMaxMemberId();	
 }

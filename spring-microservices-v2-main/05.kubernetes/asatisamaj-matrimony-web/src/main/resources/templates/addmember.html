@@ -34,7 +34,11 @@
 <script
 	src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js"></script>
 <script type="text/javascript" th:src="@{~/js/addmember.js}"></script>
+<script type="text/javascript" th:src="@{~/js/common.js}"></script>
 </head>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <body>
 	<h2 align="center">नए प्रोफाइल वाले यूजर प्रोफाइल ऐड करने के बाद
 		जांच एवं अप्रूवल हेतु मोबाइल नंबर +91-9425405688 संपर्क करे।</h2>
@@ -51,12 +55,13 @@
 							id="addUserForm">
 							<div class="form-group">
 								<div class="col-sm-10">
-										<select class="form-control"	id='status' th:field="*{status}" sec:authorize="hasAnyAuthority('ADMIN')">
-												<option value=''>--Member Status--</option>
-												<option value='PENDING'>Pending</option>
-												<option value='ACTIVE'>Active</option>
-												<option value='INACTIVE'>Inactive</option>
-										</select> 
+									<select class="form-control" id='status' th:field="*{status}"
+										sec:authorize="hasAnyAuthority('ADMIN')">
+										<option value=''>--Member Status--</option>
+										<option value='PENDING'>Pending</option>
+										<option value='ACTIVE'>Active</option>
+										<option value='INACTIVE'>Inactive</option>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">
@@ -97,6 +102,18 @@
 										<option value=''>--Gender--</option>
 										<option value='male'>Male</option>
 										<option value='female'>Female</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-10">
+									<select class="form-control" id="maritalStatus" th:field="*{maritalStatus}"
+										required>
+										<option value=''>--Marital Status--</option>
+										<option value='Single'>Single</option>
+										<option value='Separated'>Separated</option>
+										<option value='Widowed'>Widowed</option>
+										<option value='Divorced'>Divorced</option>
 									</select>
 								</div>
 							</div>

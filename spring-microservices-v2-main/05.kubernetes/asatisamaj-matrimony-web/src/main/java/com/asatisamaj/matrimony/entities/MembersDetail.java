@@ -51,10 +51,13 @@ public class MembersDetail {
 	private Date updateDate;
 	private String updateUser;
 	private String updateProgram;
+	private String maritalStatus;
 
 	public MembersDetail() {
 
 	}
+
+
 
 	public MembersDetail(Long id, Long memberId, String samajArea, String fullName, String fatherName,
 			String motherName, String grandFather, String gender, int age, Date birthDate, String height,
@@ -62,10 +65,10 @@ public class MembersDetail {
 			String occupationDetails, String fullAddress, String cityState, String state, String country,
 			String mobile1, String mobile2, String email, String fatherOccupation, String gotra, String comments,
 			String imagePath, String status, Date insertDate, String insertUser, String insertProgram, Date updateDate,
-			String updateUser, String updateProgram) {
+			String updateUser, String updateProgram, String maritalStatus) {
 		super();
 		this.id = id;
-		this.memberId = id;
+		this.memberId = memberId;
 		this.samajArea = samajArea;
 		this.fullName = fullName;
 		this.fatherName = fatherName;
@@ -99,7 +102,10 @@ public class MembersDetail {
 		this.updateDate = updateDate;
 		this.updateUser = updateUser;
 		this.updateProgram = updateProgram;
+		this.maritalStatus = maritalStatus;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -379,6 +385,18 @@ public class MembersDetail {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+
+
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+
+
+
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
 	}
 
 }

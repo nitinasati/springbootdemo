@@ -72,8 +72,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("dummyCookie")
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
-                .and()
-                .csrf().disable();
+                .and();
+              //  .csrf().disable();
                 /*
                 .and()
                 .sessionManagement()

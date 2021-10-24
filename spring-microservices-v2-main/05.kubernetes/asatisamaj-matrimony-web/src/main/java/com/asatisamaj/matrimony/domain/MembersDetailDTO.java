@@ -43,6 +43,7 @@ public class MembersDetailDTO{
 	private Date updateDate;
 	private String updateUser;
 	private String updateProgram;
+	private String maritalStatus;
 	
 	public Long getMemberId() {
 		return memberId;
@@ -247,5 +248,11 @@ public class MembersDetailDTO{
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
 	}
 }

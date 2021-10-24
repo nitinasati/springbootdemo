@@ -5,7 +5,13 @@ In case customer account does not exists in the system for a given email id.
  */
 public class UnkownIdentifierException extends Exception {
 
-    public UnkownIdentifierException() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	public UnkownIdentifierException() {
         super();
     }
 

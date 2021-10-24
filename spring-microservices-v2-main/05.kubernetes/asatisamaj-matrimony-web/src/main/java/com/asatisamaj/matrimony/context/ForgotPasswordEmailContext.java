@@ -18,7 +18,7 @@ public class ForgotPasswordEmailContext extends AbstractEmailContext {
         put("firstName", customer.getFirstName());
         setTemplateLocation("emails/forgot-password");
         setSubject("Forgotten Password");
-        setFrom("no-reply@javadevjournal.com");
+        setFrom("rkasatichandu@gmail.com");
         setTo(customer.getEmail());
     }
 

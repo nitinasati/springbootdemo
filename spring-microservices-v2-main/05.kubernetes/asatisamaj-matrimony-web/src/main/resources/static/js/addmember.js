@@ -1,4 +1,9 @@
 $(document).ready(function() {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
 
 	$.ajax({
 		type: "GET",
@@ -80,98 +85,98 @@ $(document).ready(function() {
 		}
 	});
 
-/*	$.ajax({
-		type: "GET",
-		url: "https://countriesnow.space/api/v0.1/countries/info?returns=currency",
-		// Append to data
-		data: { country: $('#country').val() },
-		dataType: "json",
-		success: function(response) {
-			$.each(response.data, function(i, data) {
-				if (jsCountry != null && data.name === jsCountry) {
-					var div_data = "<option value='" + jsCountry + "'selected>" + jsCountry + "</option>";
-				} else if (jsCountry === null && data.name === "India") {
-					var div_data = "<option value='" + data.name + "'selected>" + data.name + "</option>";
-				} else {
-					var div_data = "<option value='" + data.name + "'>" + data.name + "</option>";
-				}
-				$(div_data).appendTo('#country');
-			});
-		}
-	});
-	$.ajax({
-		type: "POST",
-		url: "https://countriesnow.space/api/v0.1/countries/states",
-		data: { country: jsCountry != null ? jsCountry : "India" },
-		dataType: "json",
-		success: function(response) {
-			$.each(response.data.states, function(i, data) {
-				if (jsState != null && data.name === jsState) {
-					var div_data = "<option value='" + jsState + "'selected>" + jsState + "</option>";
-				} else if (jsState === null && data.name === "Madhya Pradesh") {
-					var div_data = "<option value='" + data.name + "'selected>" + data.name + "</option>";
-				}else {
-					var div_data = "<option value='" + data.name + "'>" + data.name + "</option>";
-				}
-				$(div_data).appendTo('#state');
-			});
-		}
-	});
-	$('#country').change(function() {
-		$('#state option').remove();
-		var defaultDataState = "<option value=''>--Select State--</option>";
-		$(defaultDataState).appendTo('#state');
-		$('#cityState option').remove();
-		var defaultDataCity = "<option value=''>--Select City--</option>";
-		$(defaultDataCity).appendTo('#cityState');
-		$.ajax({
-			type: "POST",
-			url: "https://countriesnow.space/api/v0.1/countries/states",
+	/*	$.ajax({
+			type: "GET",
+			url: "https://countriesnow.space/api/v0.1/countries/info?returns=currency",
 			// Append to data
 			data: { country: $('#country').val() },
 			dataType: "json",
 			success: function(response) {
+				$.each(response.data, function(i, data) {
+					if (jsCountry != null && data.name === jsCountry) {
+						var div_data = "<option value='" + jsCountry + "'selected>" + jsCountry + "</option>";
+					} else if (jsCountry === null && data.name === "India") {
+						var div_data = "<option value='" + data.name + "'selected>" + data.name + "</option>";
+					} else {
+						var div_data = "<option value='" + data.name + "'>" + data.name + "</option>";
+					}
+					$(div_data).appendTo('#country');
+				});
+			}
+		});
+		$.ajax({
+			type: "POST",
+			url: "https://countriesnow.space/api/v0.1/countries/states",
+			data: { country: jsCountry != null ? jsCountry : "India" },
+			dataType: "json",
+			success: function(response) {
 				$.each(response.data.states, function(i, data) {
-					var div_data = "<option value='" + data.name + "'>" + data.name + "</option>";
+					if (jsState != null && data.name === jsState) {
+						var div_data = "<option value='" + jsState + "'selected>" + jsState + "</option>";
+					} else if (jsState === null && data.name === "Madhya Pradesh") {
+						var div_data = "<option value='" + data.name + "'selected>" + data.name + "</option>";
+					}else {
+						var div_data = "<option value='" + data.name + "'>" + data.name + "</option>";
+					}
 					$(div_data).appendTo('#state');
 				});
 			}
 		});
-	});
-	$.ajax({
-		type: "POST",
-		url: "https://countriesnow.space/api/v0.1/countries/state/cities",
-		// Append to data
-		data: { country: jsCountry != null ? jsCountry : "India", state: jsState != null ? jsState : "Madhya Pradesh" },
-		dataType: "json",
-		success: function(response) {
-			$.each(response.data, function(i, data) {
-				if (jsCity != null && data === jsCity) {
-					var div_data = "<option value='" + jsCity + "'selected>" + jsCity + "</option>";
-				} else {
-					var div_data = "<option value='" + data + "'>" + data + "</option>";
+		$('#country').change(function() {
+			$('#state option').remove();
+			var defaultDataState = "<option value=''>--Select State--</option>";
+			$(defaultDataState).appendTo('#state');
+			$('#cityState option').remove();
+			var defaultDataCity = "<option value=''>--Select City--</option>";
+			$(defaultDataCity).appendTo('#cityState');
+			$.ajax({
+				type: "POST",
+				url: "https://countriesnow.space/api/v0.1/countries/states",
+				// Append to data
+				data: { country: $('#country').val() },
+				dataType: "json",
+				success: function(response) {
+					$.each(response.data.states, function(i, data) {
+						var div_data = "<option value='" + data.name + "'>" + data.name + "</option>";
+						$(div_data).appendTo('#state');
+					});
 				}
-				$(div_data).appendTo('#cityState');
 			});
-		}
-	});
-	$('#state').change(function() {
-		$('#cityState option').remove();
-		var defaultDataCity = "<option value=''>Select City</option>";
-		$(defaultDataCity).appendTo('#cityState');
+		});
 		$.ajax({
 			type: "POST",
 			url: "https://countriesnow.space/api/v0.1/countries/state/cities",
 			// Append to data
-			data: { country: $('#country').val(), state: $('#state').val() },
+			data: { country: jsCountry != null ? jsCountry : "India", state: jsState != null ? jsState : "Madhya Pradesh" },
 			dataType: "json",
 			success: function(response) {
 				$.each(response.data, function(i, data) {
-					var div_data = "<option value='" + data + "'>" + data + "</option>";
+					if (jsCity != null && data === jsCity) {
+						var div_data = "<option value='" + jsCity + "'selected>" + jsCity + "</option>";
+					} else {
+						var div_data = "<option value='" + data + "'>" + data + "</option>";
+					}
 					$(div_data).appendTo('#cityState');
 				});
 			}
 		});
-	});*/
+		$('#state').change(function() {
+			$('#cityState option').remove();
+			var defaultDataCity = "<option value=''>Select City</option>";
+			$(defaultDataCity).appendTo('#cityState');
+			$.ajax({
+				type: "POST",
+				url: "https://countriesnow.space/api/v0.1/countries/state/cities",
+				// Append to data
+				data: { country: $('#country').val(), state: $('#state').val() },
+				dataType: "json",
+				success: function(response) {
+					$.each(response.data, function(i, data) {
+						var div_data = "<option value='" + data + "'>" + data + "</option>";
+						$(div_data).appendTo('#cityState');
+					});
+				}
+			});
+		});*/
 
 });

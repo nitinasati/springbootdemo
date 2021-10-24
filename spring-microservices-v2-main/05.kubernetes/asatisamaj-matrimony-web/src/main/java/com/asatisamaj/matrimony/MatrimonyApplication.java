@@ -12,4 +12,6 @@ public class MatrimonyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MatrimonyApplication.class, args);
 	}
+	
+
 }

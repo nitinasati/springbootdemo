@@ -26,8 +26,13 @@
 	media="screen" />
 <script type="text/javascript" th:src="@{~/js/listmembers.js}"></script>
 <script type="text/javascript" th:src="@{~/js/dropdownvalues.js}"></script>
+<script type="text/javascript" th:src="@{~/js/common.js}"></script>
+
 </head>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <body>
+
 		<table class="left">
 		<tr>
 			<td><h3><a href="http://asativaishyaparichay.in/?page_id=27">Matrimony Home|</a></h3></td>
@@ -67,13 +72,17 @@
 						<select id='occupation'></select>
 						<button type="button" id='searchBtn'>Search</button>
 						<button id="btn-show-all-doc">Expand / Collapse</button></td>
-				</tr>
+						
+			
+			</tr>
 			</table>
+			<input type="hidden" id="hasAdmin" name="hasAdmin" value="true" sec:authorize="hasAnyAuthority('ADMIN')">
 		</div>
 		<table id="paginatedTable" class="display nowrap" style="width: 100%">
 			<thead>
 				<tr>
 					<th>memberId</th>
+					<th>imagePath</th>
 					<th>fullName</th>
 					<th>age</th>
 					<th>fatherName</th>
@@ -83,13 +92,12 @@
 					<th>occupation</th>
 					<th>fullAddress</th>
 					<th>cityState</th>
-<!-- 				<th>state</th>
-					<th>country</th> -->
 					<th>samajArea</th>
 					<th>motherName</th>
 					<th>grandFather</th>
 					<th>gender</th>
 					<th>height</th>
+					<th>maritalStatus</th>
 					<th>gotra</th>
 					<th>manglik</th>
 					<th>mobile2</th>
@@ -104,10 +112,6 @@
 		</table>
 	</div>
 
-
-
-
-	<!-- /.container -->
-
+ 	<!-- /.container -->
 </body>
 </html>
