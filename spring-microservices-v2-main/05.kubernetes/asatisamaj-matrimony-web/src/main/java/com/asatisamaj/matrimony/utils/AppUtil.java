@@ -3,16 +3,16 @@
  */
 package com.asatisamaj.matrimony.utils;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.asatisamaj.matrimony.entities.MembersDetail;
-import com.asatisamaj.matrimony.pagination.PaginationCriteria;
 
 /**
  * The Class AppUtil.
@@ -89,6 +89,10 @@ public class AppUtil {
 		return sb.toString();
 	}
 
+	/**
+	 * @param object
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public static Object maskResult(Object object) {
 		List<MembersDetail> memberList;

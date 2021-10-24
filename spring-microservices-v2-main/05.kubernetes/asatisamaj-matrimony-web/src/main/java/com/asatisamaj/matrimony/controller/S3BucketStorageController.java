@@ -7,7 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,18 +34,31 @@ import io.micrometer.core.instrument.util.StringUtils;
 @Controller
 @RequestMapping("matrimony/image")
 public class S3BucketStorageController {
+
+	@Value("${valid.file.extensions}")
+	private String validFileExtensions;
+
 	@Autowired
 	S3BucketStorageService service;
 
 	@Autowired
 	public MemberDetailService memberDetailService;
 
+	@Autowired
+	private MessageSource messageSource;
+
+	private static final Logger LOGGER = LogManager.getLogger(S3BucketStorageController.class);
+
 	@PostMapping("/upload") // //new annotation since 4.3
 	public ResponseEntity<String> singleFileUpload(@RequestParam("file") MultipartFile file,
 			@RequestParam("fileName") String fileName, Authentication authentication) {
 
-		if (file.isEmpty()) {
-			new ResponseEntity<>("\"Please select a file to upload\"", HttpStatus.BAD_REQUEST);
+		if (!validateFile(file)) {
+			LOGGER.info("File extension invalid ... ");
+			return new ResponseEntity<>(
+					messageSource.getMessage("profile.photo.valid.extensions", null, LocaleContextHolder.getLocale())
+							+ " " + validFileExtensions,
+					HttpStatus.BAD_REQUEST);
 		}
 
 		try {
@@ -53,12 +71,14 @@ public class S3BucketStorageController {
 			String uploadMessage = service.uploadFile(keyName, file);
 
 			MembersDetail membersDetail = memberDetailService.getMembersDetail(fileName, authentication);
-			if (!StringUtils.isEmpty(membersDetail.getImagePath()) && !membersDetail.getImagePath().equalsIgnoreCase(keyName)) {
-				service.deleteFile(membersDetail.getImagePath());				
+			if (!StringUtils.isEmpty(membersDetail.getImagePath())
+					&& !membersDetail.getImagePath().equalsIgnoreCase(keyName)) {
+				service.deleteFile(membersDetail.getImagePath());
 			}
 
 			if (membersDetail.getMemberId() == null) {
-				return new ResponseEntity<>("Invalid memberId for this photo.", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(messageSource.getMessage("profile.photo.failure", null,
+						LocaleContextHolder.getLocale()), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			long millis = System.currentTimeMillis();
 			membersDetail.setImagePath(keyName);
@@ -67,13 +87,15 @@ public class S3BucketStorageController {
 			membersDetail.setUpdateUser("update");
 			memberDetailService.saveMember(membersDetail);
 
-			return new ResponseEntity<>(uploadMessage, HttpStatus.OK);
+			return new ResponseEntity<>(messageSource.getMessage("profile.photo.success", null,
+					LocaleContextHolder.getLocale()), HttpStatus.OK);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.error("Unexpected error while uploading photo ", e);
 		}
 
-		return new ResponseEntity<>("\"Server error has occured\"", HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(messageSource.getMessage("profile.photo.failure", null,
+				LocaleContextHolder.getLocale()), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@GetMapping(value = "/download")
@@ -98,5 +120,14 @@ public class S3BucketStorageController {
 		default:
 			return MediaType.APPLICATION_OCTET_STREAM;
 		}
+	}
+
+	private boolean validateFile(MultipartFile file) {
+
+		String fileName = file.getOriginalFilename();
+		String[] fileArrSplit = fileName.split("\\.");
+		String fileExtension = fileArrSplit[fileArrSplit.length - 1];
+
+		return validFileExtensions.contains(fileExtension);
 	}
 }
