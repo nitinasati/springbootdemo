@@ -33,15 +33,20 @@
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <body>
 
-		<table class="left">
+		<table>
 		<tr>
 			<td><h3><a href="http://asativaishyaparichay.in/?page_id=27">Matrimony Home|</a></h3></td>
-			<td><h3><a href="/matrimony/addupdatemember">Add New Member</a></h3></td>
+			<td><h3><a href="/matrimony/addupdatemember">Add New Member|</a></h3></td>
+			<td sec:authorize ="!isAuthenticated()"><h3>
+					<a href="/login">Login</a>
+				</h3></td>
+			<td><h3 sec:authorize ="isAuthenticated()">
+					<a href="/logout">Logout</a>
+				</h3></td>
 		</tr>
-		<tr>
-			<td></td>
-		</tr>
-	</table>
+		</table>
+		
+		
 	
 	<h4 align="center">नए प्रोफाइल वाले यूजर प्रोफाइल ऐड करने के बाद जांच एवं अप्रूवल हेतु मोबाइल नंबर +91-9425405688 संपर्क करे।</h4>
 	
@@ -75,7 +80,9 @@
 						
 			
 			</tr>
+			
 			</table>
+			<h4 align="center" sec:authorize ="!isAuthenticated()">मोबाइल नंबर देखने के लिए लॉगिन करे।</h4>
 			<input type="hidden" id="hasAdmin" name="hasAdmin" value="true" sec:authorize="hasAnyAuthority('ADMIN')">
 		</div>
 		<table id="paginatedTable" class="display nowrap" style="width: 100%">

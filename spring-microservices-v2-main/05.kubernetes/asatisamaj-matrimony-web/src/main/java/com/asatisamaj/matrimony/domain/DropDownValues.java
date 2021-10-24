@@ -13,26 +13,28 @@ public class DropDownValues {
 	private List<String> getAgeRange = new ArrayList<>();
 
 	public List<String> getGetSamajArea() {
-		getSamajArea.add("Damoh");
-		getSamajArea.add("Jabalpur");
-		getSamajArea.add("Bhopal");
-		getSamajArea.add("Gondia");
-		getSamajArea.add("Tikamgarh");
-		getSamajArea.add("Chhatarpur");
-		getSamajArea.add("Hata");
-		getSamajArea.add("Katni");
-		getSamajArea.add("Sagar");
-		getSamajArea.add("Hirapur-Ghuwar-Badagaon");
-		getSamajArea.add("Chhatishgarh ");
 		getSamajArea.add("Balaghat");
-		getSamajArea.add("Bijawar-Satai");
+		getSamajArea.add("Indore");
+		getSamajArea.add("Katni");
+		getSamajArea.add("Damoh");
+		getSamajArea.add("Sagar-Banda ");
+		getSamajArea.add("Chhatarpur");
+		getSamajArea.add("Hatta-Futera-Amanganj");
+		getSamajArea.add("Tikamgarh");
+		getSamajArea.add("Khurai-Bina");
+		getSamajArea.add("Jabalpur");
+		getSamajArea.add("Gondia");
+		getSamajArea.add("Bhopal");
+		getSamajArea.add("Hirapur-Shahgad");
 		getSamajArea.add("Badamalhara");
 		getSamajArea.add("Baldevgarh-Khargapur");
-		getSamajArea.add("Others");
-		getSamajArea.add("Indore");
-		getSamajArea.add("Sagar");
-		getSamajArea.add("Ghuwara-Badagaon");
-		getSamajArea.add("Hirapur-Shahgad");
+		getSamajArea.add("Bijawar-Satai");
+		getSamajArea.add("Ghuwara-Badagaon ");
+		getSamajArea.add("Chhatishgarh ");
+		getSamajArea.add("Mumbai");
+		getSamajArea.add("Delhi-NCR");
+		getSamajArea.add("Rest of India");
+		getSamajArea.add("Out of India");
 		Collections.sort(getSamajArea);
 		return getSamajArea;
 	}

@@ -12,7 +12,11 @@ import java.util.function.Function;
 
 public class CustomUser implements UserDetails {
 
-    private String password;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String password;
     private final String username;
     private final Set<GrantedAuthority> authorities;
     private final boolean accountNonExpired;

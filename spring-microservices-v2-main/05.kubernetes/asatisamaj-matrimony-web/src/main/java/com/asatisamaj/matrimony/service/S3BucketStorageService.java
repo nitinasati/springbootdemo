@@ -1,27 +1,34 @@
 package com.asatisamaj.matrimony.service;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 @Service
 public class S3BucketStorageService {
 
-    private Logger logger = LoggerFactory.getLogger(S3BucketStorageService.class);
+    private static final Logger LOGGER = LogManager.getLogger(S3BucketStorageService.class);
 
     @Autowired
     @Qualifier("S3client")
@@ -39,17 +46,22 @@ public class S3BucketStorageService {
      */
     public String uploadFile(String keyName, MultipartFile file) {
         try {
+        	File fileTemp = new File(file.getOriginalFilename());
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
             amazonS3Client.putObject(bucketName, keyName, file.getInputStream(), metadata);
-            return "Your picture has been successfully uploaded.";
+            if(fileTemp.delete()) {
+            	LOGGER.info("File has been removed from server {}", fileTemp);
+            }
+            
+           return "Your picture has been successfully uploaded.";
         } catch (IOException ioe) {
-            logger.error("IOException: " + ioe.getMessage());
+        	LOGGER.error("IOException: {}", ioe.getMessage());
         } catch (AmazonServiceException serviceException) {
-            logger.info("AmazonServiceException: "+ serviceException.getMessage());
+        	LOGGER.error("AmazonServiceException:  {}",serviceException.getMessage());
             throw serviceException;
         } catch (AmazonClientException clientException) {
-            logger.info("AmazonClientException Message: " + clientException.getMessage());
+        	LOGGER.error("AmazonClientException Message: {}", clientException.getMessage());
             throw clientException;
         }
         return "File not uploaded: " + keyName;
@@ -96,12 +108,12 @@ public class S3BucketStorageService {
 
             return outputStream;
         } catch (IOException ioException) {
-            logger.error("IOException: " + ioException.getMessage());
+        	LOGGER.error("IOException: {}",ioException.getMessage());
         } catch (AmazonServiceException serviceException) {
-            logger.info("AmazonServiceException Message:    " + serviceException.getMessage());
+        	LOGGER.error("AmazonServiceException Message:    {}",serviceException.getMessage());
             throw serviceException;
         } catch (AmazonClientException clientException) {
-            logger.info("AmazonClientException Message: " + clientException.getMessage());
+        	LOGGER.error("AmazonClientException Message: {}",clientException.getMessage());
             throw clientException;
         }
 
@@ -125,7 +137,7 @@ public class S3BucketStorageService {
 
         while (true) {
             List<S3ObjectSummary> objectSummaries = objects.getObjectSummaries();
-            if (objectSummaries.size() < 1) {
+            if (objectSummaries.isEmpty()) {
                 break;
             }
 

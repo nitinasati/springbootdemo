@@ -69,7 +69,7 @@ public class S3BucketStorageController {
 			Files.write(path, bytes);
 			String keyName = "matrimony/" + fileName + "/" + file.getOriginalFilename();
 			String uploadMessage = service.uploadFile(keyName, file);
-
+			LOGGER.info("Upload message {}", uploadMessage);
 			MembersDetail membersDetail = memberDetailService.getMembersDetail(fileName, authentication);
 			if (!StringUtils.isEmpty(membersDetail.getImagePath())
 					&& !membersDetail.getImagePath().equalsIgnoreCase(keyName)) {
