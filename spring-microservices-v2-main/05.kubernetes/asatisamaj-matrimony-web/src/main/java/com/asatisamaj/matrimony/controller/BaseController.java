@@ -208,16 +208,16 @@ public class BaseController {
 		}
 		if (null != dataTableInRQ.getSearchByEducation() && !dataTableInRQ.getSearchByEducation().isBlank()) {
 			genericSpecification
-					.add(new SearchCriteria("education", dataTableInRQ.getSearchByEducation(), SearchOperation.EQUAL));
+					.add(new SearchCriteria("education", dataTableInRQ.getSearchByEducation(), SearchOperation.MATCH));
 		}
 		if (null != dataTableInRQ.getSearchByEducationDetails()
 				&& !dataTableInRQ.getSearchByEducationDetails().isBlank()) {
 			genericSpecification.add(new SearchCriteria("educationDetails", dataTableInRQ.getSearchByEducationDetails(),
-					SearchOperation.EQUAL));
+					SearchOperation.MATCH));
 		}
 		if (null != dataTableInRQ.getSearchByOccupation() && !dataTableInRQ.getSearchByOccupation().isBlank()) {
 			genericSpecification.add(new SearchCriteria("occupationDetails", dataTableInRQ.getSearchByOccupation(),
-					SearchOperation.EQUAL));
+					SearchOperation.MATCH));
 		}
 		if (null != dataTableInRQ.getSearchByAgeRange() && !dataTableInRQ.getSearchByAgeRange().isBlank()) {
 
