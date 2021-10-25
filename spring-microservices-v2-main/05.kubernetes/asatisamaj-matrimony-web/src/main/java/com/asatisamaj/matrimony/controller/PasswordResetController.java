@@ -23,6 +23,7 @@ import com.asatisamaj.matrimony.service.CustomerAccountService;
 public class PasswordResetController {
 
     private static final String REDIRECT_LOGIN = "redirect:/login";
+    private static final String ACCOUNT_CHANGE_PASSWORD = "account/changePassword";
     private static final String MSG = "resetPasswordMsg";
 
     @Autowired
@@ -57,7 +58,7 @@ public class PasswordResetController {
         data.setToken(token);
         setResetPasswordForm(model, data);
 
-        return "/account/changePassword";
+        return ACCOUNT_CHANGE_PASSWORD;
     }
 
     @PostMapping("/change")
@@ -70,13 +71,13 @@ public class PasswordResetController {
                     messageSource.getMessage("user.registration.verification.invalid.token", null, LocaleContextHolder.getLocale())
             );
 
-            return "/account/changePassword";
+            return ACCOUNT_CHANGE_PASSWORD;
         }
         model.addAttribute("passwordUpdateMsg",
                 messageSource.getMessage("user.password.updated.msg", null, LocaleContextHolder.getLocale())
         );
         setResetPasswordForm(model, new ResetPasswordData());
-        return "/account/changePassword";
+        return ACCOUNT_CHANGE_PASSWORD;
     }
 
     private void setResetPasswordForm(final Model model, ResetPasswordData data){

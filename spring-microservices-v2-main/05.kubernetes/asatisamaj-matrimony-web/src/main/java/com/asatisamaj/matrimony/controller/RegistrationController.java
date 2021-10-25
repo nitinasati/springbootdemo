@@ -26,6 +26,7 @@ import com.asatisamaj.matrimony.service.UserService;
 public class RegistrationController {
 
     private static final String REDIRECT_LOGIN= "redirect:/login";
+    private static final String REGISTER="account/register";
 
     @Autowired
     private UserService userService;
@@ -36,24 +37,24 @@ public class RegistrationController {
     @GetMapping
     public String register(final Model model){
         model.addAttribute("userData", new UserData());
-        return "account/register";
+        return REGISTER;
     }
 
     @PostMapping
     public String userRegistration(final @Valid  UserData userData, final BindingResult bindingResult, final Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("registrationForm", userData);
-            return "account/register";
+            return REGISTER;
         }
         try {
             userService.register(userData);
         }catch (UserAlreadyExistException e){
             bindingResult.rejectValue("email", "userData.email","An account already exists for this email.");
             model.addAttribute("registrationForm", userData);
-            return "account/register";
+            return REGISTER;
         }
         model.addAttribute("registrationMsg", messageSource.getMessage("user.registration.verification.email.msg", null, LocaleContextHolder.getLocale()));
-        return "account/register";
+        return REGISTER;
     }
 
     @GetMapping("/verify")
